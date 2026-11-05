@@ -1,0 +1,736 @@
+/**
+ * Virtual Music Studio - Premium Midnight Violet & Blue Gradient Design System
+ * 
+ * Palette:
+ * - Midnight background: #050B15
+ * - Deep navy:          #071321
+ * - Elevated navy:      #0B1928
+ * - Deep violet:        #24103D
+ * - Purple accent:      #8057D9
+ * - Blue accent:        #477DD0
+ * - Soft blue:          #315FAD
+ * - Teal accent:        #52C9B2
+ * - Primary text:       #E6EDF5
+ * - Secondary text:     #A5B8B8
+ * - Muted text:         #82949F
+ * - Subtle borders:     #1C3042
+ */
+
+/* ==========================================================================
+   PART 1 — REGISTER ANIMATABLE COLOUR TOKENS
+   CSS @property allows browsers to smoothly interpolate colours on transition
+   ========================================================================== */
+
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #050B15;
+}
+
+@property --bg2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #071321;
+}
+
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0B1928;
+}
+
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1C3042;
+}
+
+@property --fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #E6EDF5;
+}
+
+@property --muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #82949F;
+}
+
+@property --acc {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #8057D9;
+}
+
+@property --acc2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #477DD0;
+}
+
+@property --btn-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #8057D9;
+}
+
+@property --btn-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #FFFFFF;
+}
+
+@property --chip {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(128, 87, 217, 0.16);
+}
+
+@property --g1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(100, 35, 160, 0.32);
+}
+
+@property --g2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(24, 74, 145, 0.25);
+}
+
+@property --g3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(20, 100, 110, 0.10);
+}
+
+@property --shadow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(5, 11, 21, 0.75);
+}
+
+/* ==========================================================================
+   PART 2 — DESIGN TOKENS & DYNAMIC TWO-HUE ENGINE
+   ========================================================================== */
+
+:root {
+  /* Exactly Two Hue Variables for RGB mode */
+  --ha: 259; /* Purple: 259deg (#8057D9) */
+  --hb: 216; /* Blue:   216deg (#477DD0) */
+
+  /* Palette Core Colors */
+  --color-midnight: #050B15;
+  --color-deep-navy: #071321;
+  --color-elevated-navy: #0B1928;
+  --color-deep-violet: #24103D;
+  --color-purple-accent: #8057D9;
+  --color-blue-accent: #477DD0;
+  --color-soft-blue: #315FAD;
+  --color-teal-accent: #52C9B2;
+  --color-text-primary: #E6EDF5;
+  --color-text-secondary: #A5B8B8;
+  --color-text-muted: #82949F;
+  --color-subtle-borders: #1C3042;
+
+  /* Surfaces & Neutral Tokens */
+  --bg: #050B15;
+  --bg2: #071321;
+  --surface: #0B1928;
+  --line: #1C3042;
+  --fg: #E6EDF5;
+  --muted: #82949F;
+
+  /* Accent Tokens */
+  --acc: hsl(var(--ha) 63% 60%);
+  --acc2: hsl(var(--hb) 59% 55%);
+  --teal: #52C9B2;
+  --deep-violet: #24103D;
+  --soft-blue: #315FAD;
+
+  --btn-bg: linear-gradient(135deg, hsl(var(--ha) 63% 52%) 0%, hsl(var(--hb) 59% 46%) 100%);
+  --btn-fg: #FFFFFF;
+
+  --chip: hsla(var(--ha), 63%, 50%, 0.16);
+
+  --g1: hsla(var(--ha), 65%, 45%, 0.32);
+  --g2: hsla(var(--hb), 60%, 40%, 0.25);
+  --g3: rgba(20, 100, 110, 0.12);
+
+  --shadow: rgba(5, 11, 21, 0.75);
+
+  /* Aliased DAW Application Tokens */
+  --accent-primary: var(--acc);
+  --accent-light: var(--acc2);
+  --accent-dark: #24103D;
+  --accent-glow: var(--g1);
+  --accent-subtle: var(--chip);
+
+  --color-violet: var(--acc);
+  --color-violet-light: hsl(var(--ha) 70% 72%);
+  --color-violet-dark: #24103D;
+  --color-violet-glow: rgba(128, 87, 217, 0.4);
+  --color-violet-subtle: rgba(128, 87, 217, 0.16);
+
+  --color-cyan: var(--acc2);
+  --color-cyan-light: hsl(var(--hb) 70% 72%);
+  --color-cyan-dark: #315FAD;
+  --color-cyan-glow: rgba(71, 125, 208, 0.35);
+
+  --color-teal: #52C9B2;
+  --color-teal-glow: rgba(82, 201, 178, 0.35);
+
+  --bg-main: var(--bg);
+  --bg-app: var(--bg2);
+  --bg-panel: var(--surface);
+  --bg-elevated: #0B1928;
+  --bg-interactive: #0E2034;
+  --bg-interactive-hover: #142B44;
+  --bg-input: #071321;
+
+  --border-subtle: var(--line);
+  --border-standard: #1C3042;
+  --border-elevated: #25425B;
+  --border-highlight: var(--acc);
+
+  --text-primary: var(--fg);
+  --text-secondary: #A5B8B8;
+  --text-muted: var(--muted);
+}
+
+/* ==========================================================================
+   PART 3 — SMOOTH TRANSITION CLASS (.theming)
+   Applied only when turning RGB off or restoring palette for ~800ms
+   ========================================================================== */
+
+:root.theming {
+  transition:
+    --bg .7s ease,
+    --bg2 .7s ease,
+    --surface .7s ease,
+    --line .7s ease,
+    --fg .7s ease,
+    --muted .7s ease,
+    --acc .7s ease,
+    --acc2 .7s ease,
+    --btn-bg .7s ease,
+    --btn-fg .7s ease,
+    --chip .7s ease,
+    --g1 .7s ease,
+    --g2 .7s ease,
+    --g3 .7s ease,
+    --shadow .7s ease;
+}
+
+/* ==========================================================================
+   PART 4 — RGB TOOLBAR BUTTON (38px x 38px)
+   ========================================================================== */
+
+.theme-wheel-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform var(--transition-fast, 0.15s ease),
+              box-shadow var(--transition-fast, 0.15s ease),
+              border-color var(--transition-fast, 0.15s ease);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.theme-wheel-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--acc);
+  box-shadow: 0 4px 14px var(--shadow), 0 0 12px var(--g1);
+}
+
+.theme-wheel-btn:active {
+  transform: translateY(1px);
+}
+
+.theme-wheel-btn:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+
+/* Active RGB Cycling Ring */
+.theme-wheel-btn.active,
+.theme-wheel-btn[aria-pressed="true"] {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 2px var(--acc), 0 0 18px var(--g1);
+}
+
+/* Multicolour Conic-Gradient Rainbow Icon */
+.color-wheel-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #FF0055 0deg,
+    #FF7700 60deg,
+    #FFDD00 120deg,
+    #00FF66 180deg,
+    #00EEFF 240deg,
+    #8800FF 300deg,
+    #FF0055 360deg
+  );
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  display: block;
+}
+
+/* Spinning Rainbow Icon when RGB is active */
+.theme-wheel-btn.active .color-wheel-icon,
+.theme-wheel-btn[aria-pressed="true"] .color-wheel-icon {
+  animation: spinRainbow 4s linear infinite;
+}
+
+@keyframes spinRainbow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   PART 5 — APPLICATION-WIDE AMBIENT GRADIENTS
+   ========================================================================== */
+
+.daw-shell {
+  background:
+    radial-gradient(ellipse at 12% 20%, rgba(100, 35, 160, .32), transparent 42%),
+    radial-gradient(ellipse at 72% 5%, rgba(24, 74, 145, .25), transparent 45%),
+    radial-gradient(ellipse at 55% 85%, rgba(20, 100, 110, .10), transparent 50%),
+    #050B15 !important;
+}
+
+.views-container {
+  background:
+    radial-gradient(ellipse at 12% 20%, rgba(100, 35, 160, .18), transparent 42%),
+    radial-gradient(ellipse at 72% 5%, rgba(24, 74, 145, .15), transparent 45%),
+    radial-gradient(ellipse at 55% 85%, rgba(20, 100, 110, .08), transparent 50%),
+    transparent !important;
+}
+
+/* When RGB Mode is activated, animate illumination without replacing midnight base */
+:root[data-rgb="true"] .daw-shell,
+html[data-rgb="true"] .daw-shell {
+  background:
+    radial-gradient(ellipse at 12% 20%, var(--g1), transparent 42%),
+    radial-gradient(ellipse at 72% 5%, var(--g2), transparent 45%),
+    radial-gradient(ellipse at 55% 85%, rgba(20, 100, 110, .10), transparent 50%),
+    #050B15 !important;
+}
+
+/* ==========================================================================
+   PART 6 — TRANSLUCENT MIDNIGHT NAVY SURFACES & PANELS
+   ========================================================================== */
+
+/* Left Sidebar */
+.daw-sidebar {
+  background: linear-gradient(180deg, rgba(11, 25, 40, 0.88) 0%, rgba(7, 19, 33, 0.96) 100%) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid var(--line) !important;
+}
+
+/* Top Transport Bar */
+.studio-header,
+.daw-transport-bar {
+  background: linear-gradient(180deg, rgba(11, 25, 40, 0.94) 0%, rgba(7, 19, 33, 0.98) 100%) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line) !important;
+}
+
+/* Bottom Status Bar */
+.daw-statusbar {
+  background: rgba(7, 19, 33, 0.96) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line) !important;
+  color: var(--color-text-muted) !important;
+}
+
+/* Sidebar Active Navigation Indicator */
+.sidebar-nav-item .nav-link.active {
+  background: linear-gradient(90deg, rgba(128, 87, 217, 0.22) 0%, rgba(71, 125, 208, 0.08) 100%) !important;
+  color: var(--fg) !important;
+  border: 1px solid rgba(128, 87, 217, 0.45) !important;
+  box-shadow: inset 3px 0 0 0 var(--acc), 0 0 16px rgba(128, 87, 217, 0.18) !important;
+}
+
+.sidebar-nav-item .nav-link.active .nav-icon {
+  filter: drop-shadow(0 0 8px var(--acc));
+}
+
+.sidebar-badge {
+  background: rgba(128, 87, 217, 0.16) !important;
+  color: var(--acc2) !important;
+  border: 1px solid rgba(128, 87, 217, 0.35) !important;
+}
+
+/* ==========================================================================
+   PART 7 — BUTTONS, CONTROLS & ACCENTS
+   ========================================================================== */
+
+/* Primary Gradient Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #8057D9 0%, #477DD0 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 4px 14px rgba(128, 87, 217, 0.32) !important;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #9168EC 0%, #588EE1 100%) !important;
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(128, 87, 217, 0.42), 0 0 12px rgba(71, 125, 208, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: rgba(11, 25, 40, 0.6) !important;
+  border-color: var(--line) !important;
+  color: var(--text-secondary) !important;
+}
+
+.btn-ghost:hover {
+  background: rgba(14, 32, 52, 0.8) !important;
+  border-color: var(--acc) !important;
+  color: var(--fg) !important;
+}
+
+/* Range Sliders */
+input[type="range"] {
+  accent-color: var(--acc) !important;
+}
+
+/* Text Inputs */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  background: rgba(7, 19, 33, 0.85) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--fg) !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--acc) !important;
+  box-shadow: 0 0 10px rgba(128, 87, 217, 0.35) !important;
+  outline: none;
+}
+
+/* ==========================================================================
+   PART 8 — STUDIO HOME WORKSPACE & HERO
+   ========================================================================== */
+
+/* Hero Active Instrument Card */
+.current-instrument-hero {
+  border-color: var(--line) !important;
+  background:
+    radial-gradient(ellipse at 85% 15%, rgba(71, 125, 208, 0.2), transparent 55%),
+    linear-gradient(135deg, rgba(36, 16, 61, 0.45) 0%, rgba(11, 25, 40, 0.88) 60%, rgba(7, 19, 33, 0.95) 100%) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px var(--shadow), 0 0 24px rgba(128, 87, 217, 0.12) !important;
+}
+
+.hero-instrument-icon {
+  border-color: var(--acc) !important;
+  box-shadow: 0 0 16px rgba(128, 87, 217, 0.4) !important;
+  background: rgba(7, 19, 33, 0.9) !important;
+}
+
+.hero-family-tag {
+  color: var(--color-lavender) !important;
+  background: rgba(128, 87, 217, 0.18) !important;
+  border: 1px solid rgba(128, 87, 217, 0.35) !important;
+}
+
+/* Dynamic Visualizer */
+.visualizer-box {
+  background: rgba(5, 11, 21, 0.9) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.visualizer-badge {
+  background: rgba(128, 87, 217, 0.16) !important;
+  color: var(--acc2) !important;
+  border: 1px solid var(--acc) !important;
+}
+
+/* Studio Home 4-Column Dashboard Cards */
+.dashboard-col {
+  background: linear-gradient(145deg, rgba(11, 25, 40, 0.82) 0%, rgba(7, 19, 33, 0.92) 100%) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px var(--shadow), 0 0 16px rgba(128, 87, 217, 0.08) !important;
+}
+
+.dashboard-col:hover {
+  border-color: var(--acc) !important;
+  box-shadow: 0 8px 28px var(--shadow), 0 0 20px rgba(128, 87, 217, 0.22) !important;
+}
+
+.dash-tag {
+  background: rgba(128, 87, 217, 0.16) !important;
+  color: var(--color-lavender) !important;
+  border: 1px solid rgba(128, 87, 217, 0.35) !important;
+}
+
+.dash-action-tile {
+  background: rgba(5, 11, 21, 0.75) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.dash-action-tile:hover {
+  border-color: var(--acc) !important;
+  background: rgba(14, 32, 52, 0.85) !important;
+  box-shadow: 0 4px 14px rgba(128, 87, 217, 0.18) !important;
+}
+
+.stat-value.highlight {
+  color: var(--acc) !important;
+}
+
+.stat-value.mono {
+  color: var(--acc2) !important;
+}
+
+/* ==========================================================================
+   PART 9 — PIANO KEYBOARD & ACCESSIBLE NAV ARROWS
+   ========================================================================== */
+
+.performance-area {
+  background: linear-gradient(180deg, rgba(11, 25, 40, 0.78) 0%, rgba(7, 19, 33, 0.9) 100%) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line) !important;
+  box-shadow: 0 8px 32px var(--shadow), 0 0 16px rgba(128, 87, 217, 0.1) !important;
+}
+
+.piano-keyboard-scroll-container {
+  background: rgba(5, 11, 21, 0.85) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: inset 0 6px 24px rgba(5, 11, 21, 0.95) !important;
+}
+
+/* Elegant Ivory White Keys */
+.piano-key.white-key {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F3FB 55%, #E4E0EC 85%, #D5D0DF 100%) !important;
+  border-color: #6A677B !important;
+}
+
+.piano-key.white-key:hover {
+  background: linear-gradient(180deg, #FFFFFF 0%, #EDE9F7 70%, #E0DCED 100%) !important;
+}
+
+.piano-key.white-key.active,
+.piano-key.white-key:active {
+  background: linear-gradient(180deg, #A78BFA 0%, var(--acc) 100%) !important;
+  box-shadow: 0 0 24px rgba(128, 87, 217, 0.65), inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Deep Charcoal-Black Keys */
+.piano-key.black-key {
+  background: linear-gradient(180deg, #2A2838 0%, #151420 40%, #0A0912 85%, #050509 100%) !important;
+  border-color: #050509 !important;
+}
+
+.piano-key.black-key:hover {
+  background: linear-gradient(180deg, #3B384E 0%, #1E1C2B 100%) !important;
+}
+
+.piano-key.black-key.active,
+.piano-key.black-key:active {
+  background: linear-gradient(180deg, var(--acc) 0%, #4C1D95 100%) !important;
+  box-shadow: 0 0 20px rgba(128, 87, 217, 0.7) !important;
+}
+
+/* QWERTY Badges */
+.qwerty-hint.active-hint {
+  background: linear-gradient(135deg, #8057D9 0%, #477DD0 100%) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 0 8px rgba(128, 87, 217, 0.6) !important;
+}
+
+/* Quick Effects Modules */
+.quick-effects-rack {
+  background: transparent !important;
+}
+
+.quick-fx-module {
+  background: linear-gradient(145deg, rgba(11, 25, 40, 0.8) 0%, rgba(7, 19, 33, 0.9) 100%) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px var(--shadow) !important;
+}
+
+.quick-fx-module:hover {
+  border-color: var(--acc) !important;
+  box-shadow: 0 6px 20px var(--shadow), 0 0 14px rgba(128, 87, 217, 0.25) !important;
+}
+
+/* ==========================================================================
+   PART 10 — 24 INSTRUMENT CATALOG CARDS
+   ========================================================================== */
+
+.instrument-card {
+  background: linear-gradient(160deg, rgba(11, 25, 40, 0.85) 0%, rgba(7, 19, 33, 0.95) 100%) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px var(--shadow), 0 0 12px rgba(128, 87, 217, 0.05) !important;
+}
+
+.instrument-card:hover {
+  border-color: var(--acc2) !important;
+  box-shadow: 0 8px 28px var(--shadow), 0 0 16px rgba(71, 125, 208, 0.25) !important;
+}
+
+.instrument-card.selected,
+.instrument-card.active {
+  background: linear-gradient(160deg, rgba(36, 16, 61, 0.6) 0%, rgba(11, 25, 40, 0.95) 100%) !important;
+  border-color: var(--acc) !important;
+  box-shadow: 0 0 0 1px var(--acc), 0 8px 30px var(--shadow), 0 0 20px rgba(128, 87, 217, 0.4) !important;
+}
+
+.inst-family-tag {
+  background: rgba(128, 87, 217, 0.16) !important;
+  border: 1px solid rgba(128, 87, 217, 0.35) !important;
+  color: var(--color-lavender) !important;
+}
+
+/* Category Filter Pills */
+.category-filter-btn.active {
+  background: linear-gradient(135deg, #8057D9 0%, #477DD0 100%) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 0 12px rgba(128, 87, 217, 0.4) !important;
+}
+
+/* ==========================================================================
+   PART 11 — PRODUCTION WORKSPACES (ARRANGER, MIXER, DRUMS, CHORDS)
+   ========================================================================== */
+
+/* Multi-Track Arranger */
+.arranger-workspace {
+  background: rgba(7, 19, 33, 0.8) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(12px);
+}
+
+.timeline-clip {
+  background: linear-gradient(135deg, rgba(128, 87, 217, 0.4) 0%, rgba(71, 125, 208, 0.3) 100%) !important;
+  border: 1px solid var(--acc) !important;
+  box-shadow: 0 2px 8px rgba(128, 87, 217, 0.25) !important;
+}
+
+.timeline-playhead-line {
+  background: var(--acc2) !important;
+  box-shadow: 0 0 10px var(--acc2) !important;
+}
+
+/* Drum Sequencer */
+.drum-machine-container {
+  background: rgba(11, 25, 40, 0.8) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(12px);
+}
+
+.drum-step.active {
+  background: linear-gradient(135deg, #8057D9 0%, #477DD0 100%) !important;
+  box-shadow: 0 0 12px rgba(128, 87, 217, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Pro Mixer */
+.mixer-channel-strip {
+  background: linear-gradient(180deg, rgba(11, 25, 40, 0.85) 0%, rgba(7, 19, 33, 0.95) 100%) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(10px);
+}
+
+.fader-track-glow {
+  background: var(--acc) !important;
+}
+
+/* Chord Progression Engine */
+.chord-pad,
+.chord-card {
+  background: rgba(11, 25, 40, 0.8) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(10px);
+}
+
+.chord-pad.active,
+.chord-card.active {
+  border-color: var(--acc) !important;
+  box-shadow: 0 0 16px rgba(128, 87, 217, 0.4) !important;
+}
+
+/* Modal Windows */
+.modal-content {
+  background: linear-gradient(145deg, rgba(11, 25, 40, 0.95) 0%, rgba(7, 19, 33, 0.98) 100%) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 16px 48px rgba(5, 11, 21, 0.85), 0 0 32px rgba(128, 87, 217, 0.2) !important;
+}
+
+/* ==========================================================================
+   PART 12 — TEAL ACCENT FOR SECONDARY STATUS INDICATORS ONLY
+   ========================================================================== */
+
+.audio-status-pill.running,
+.audio-status-pill.active,
+.audio-status-pill.unlocked {
+  background: rgba(82, 201, 178, 0.12) !important;
+  border-color: rgba(82, 201, 178, 0.35) !important;
+  color: #52C9B2 !important;
+}
+
+.audio-status-pill.running .status-indicator-dot,
+.audio-status-pill.active .status-indicator-dot,
+.audio-status-pill.unlocked .status-indicator-dot {
+  background: #52C9B2 !important;
+  box-shadow: 0 0 8px #52C9B2 !important;
+}
+
+.ready-dot,
+.live-dot {
+  background: #52C9B2 !important;
+  box-shadow: 0 0 8px #52C9B2 !important;
+}
+
+.dash-live-badge {
+  color: #52C9B2 !important;
+}
+
+/* Reduced Motion Preference Support */
+@media (prefers-reduced-motion: reduce) {
+  .theme-wheel-btn.active .color-wheel-icon,
+  .theme-wheel-btn[aria-pressed="true"] .color-wheel-icon {
+    animation: none !important;
+  }
+  .daw-shell,
+  .views-container {
+    transition: none !important;
+  }
+}

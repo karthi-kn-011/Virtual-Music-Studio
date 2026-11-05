@@ -62,6 +62,8 @@ class VirtualMusicStudioApp {
 
     // 1. Immediately bind navigation so clicking any tab works without waiting
     this._bindNavigation();
+    this._initSidebar();
+    this._initStatusBar();
 
     // 2. Audio Engine initial status update (complies with browser autoplay policy)
     if (window.audioEngine) {
@@ -74,7 +76,11 @@ class VirtualMusicStudioApp {
     } catch (e) { console.error('[App] InstrumentManager init error:', e); }
 
     try {
-      if (window.keyboardController) window.keyboardController.init(document.getElementById('studio-piano-keys'));
+      if (window.keyboardController) {
+        window.keyboardController.init(document.getElementById('studio-piano-keys'));
+        const scroller = document.getElementById('piano-keyboard-scroller');
+        if (scroller) scroller.scrollLeft = 0;
+      }
     } catch (e) { console.error('[App] KeyboardController init error:', e); }
 
     try {
@@ -141,6 +147,10 @@ class VirtualMusicStudioApp {
       }
     } catch (e) { console.error('[App] MasteringEngine init error:', e); }
 
+    try {
+      if (window.themeManager) window.themeManager.init();
+    } catch (e) { console.error('[App] ThemeManager init error:', e); }
+
     // 4. Render 24-instrument catalog grid
     this.renderInstrumentsView();
 
@@ -150,6 +160,7 @@ class VirtualMusicStudioApp {
     this._bindVisualizer();
     this._bindModals();
     this._bindGlobalUserGestureUnlock();
+    this.initDashboard();
 
     // Check first-time user onboarding
     if (!localStorage.getItem('vms_onboarded')) {
@@ -217,8 +228,23 @@ class VirtualMusicStudioApp {
       panel.style.display = match ? 'flex' : 'none';
     });
 
+    // Ensure application body and views container are locked at x = 0
+    const dawBody = document.querySelector('.daw-body');
+    if (dawBody) dawBody.scrollLeft = 0;
+    const viewsContainer = document.getElementById('main-views-container');
+    if (viewsContainer) {
+      viewsContainer.scrollLeft = 0;
+      viewsContainer.scrollTop = 0;
+    }
+
     // View specific updates & rendering
-    if (target === 'mixer' && window.mixerEngine) {
+    if (target === 'studio') {
+      this.renderDashboardRecentProjects();
+      this.updateDashboardSession();
+      if (window.keyboardController) {
+        window.keyboardController.updateKeyLabels();
+      }
+    } else if (target === 'mixer' && window.mixerEngine) {
       window.mixerEngine.renderMixerUI();
       window.mixerEngine._updateInspectorUI();
     } else if (target === 'instruments') {
@@ -246,11 +272,6 @@ class VirtualMusicStudioApp {
       if (window.genreManager) window.genreManager.render();
     } else if (target === 'tutorials') {
       if (window.tutorialManager) window.tutorialManager.render();
-    } else if (target === 'studio') {
-      if (window.keyboardController) {
-        window.keyboardController.updateKeyLabels();
-        window.keyboardController.scrollKeyboardToOctave(window.noteMapper ? window.noteMapper.baseOctave : 4);
-      }
     }
   }
 
@@ -270,6 +291,131 @@ class VirtualMusicStudioApp {
     });
   }
 
+  _initSidebar() {
+    const sidebar = document.getElementById('daw-sidebar');
+    const dawBody = document.querySelector('.daw-body');
+    const toggleBtn = document.getElementById('btn-sidebar-collapse');
+    if (!sidebar || !toggleBtn) return;
+
+    // Check saved collapse state
+    const isCollapsed = localStorage.getItem('vms_sidebar_collapsed') === 'true';
+    if (isCollapsed) {
+      sidebar.classList.add('collapsed');
+      if (dawBody) dawBody.classList.add('sidebar-collapsed');
+      toggleBtn.textContent = '▶';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      const collapsed = sidebar.classList.contains('collapsed');
+      if (dawBody) dawBody.classList.toggle('sidebar-collapsed', collapsed);
+      toggleBtn.textContent = collapsed ? '▶' : '◀';
+      localStorage.setItem('vms_sidebar_collapsed', collapsed ? 'true' : 'false');
+    });
+  }
+
+  _initStatusBar() {
+    const audioDot = document.getElementById('statusbar-audio-dot');
+    const audioStateText = document.getElementById('statusbar-audio-state');
+    const playheadPos = document.getElementById('statusbar-playhead-pos');
+    const projectName = document.getElementById('statusbar-project-name');
+    const instrumentInfo = document.getElementById('statusbar-instrument-info');
+
+    // Audio status sync
+    const updateAudioStatus = (state) => {
+      if (audioDot && audioStateText) {
+        if (state === 'running') {
+          audioDot.className = 'statusbar-dot running';
+          const khz = window.audioEngine && window.audioEngine.ctx ? Math.round(window.audioEngine.ctx.sampleRate / 1000) : 44;
+          audioStateText.textContent = `Web Audio: Active (${khz}kHz)`;
+        } else if (state === 'suspended') {
+          audioDot.className = 'statusbar-dot locked';
+          audioStateText.textContent = 'Web Audio: Suspended';
+        } else {
+          audioDot.className = 'statusbar-dot locked';
+          audioStateText.textContent = 'Web Audio: Locked';
+        }
+      }
+    };
+
+    if (window.audioEngine) {
+      window.audioEngine.onStateChange(updateAudioStatus);
+      if (window.audioEngine.ctx) {
+        updateAudioStatus(window.audioEngine.ctx.state);
+      }
+    }
+
+    // Project name sync
+    const projInput = document.getElementById('project-name-input');
+    if (projInput && projectName) {
+      projectName.textContent = projInput.value;
+      projInput.addEventListener('input', (e) => {
+        projectName.textContent = e.target.value || 'Untitled Symphony';
+      });
+    }
+
+    // Instrument info sync
+    const updateInstStatus = () => {
+      if (!instrumentInfo) return;
+      const instObj = window.instrumentManager ? window.instrumentManager.currentInstrument : null;
+      let instName = 'Classical Piano';
+      if (instObj) {
+        if (typeof instObj === 'string') {
+          instName = instObj;
+        } else if (instObj.name) {
+          instName = instObj.name;
+        }
+      }
+      const oct = window.noteMapper ? window.noteMapper.baseOctave : 4;
+      const octave = `C${oct}–C${oct + 1}`;
+      let velPct = 85;
+      if (window.noteMapper && typeof window.noteMapper.velocity === 'number') {
+        velPct = Math.round(window.noteMapper.velocity * 100);
+      }
+      instrumentInfo.textContent = `${instName} • ${octave} • Velocity ${velPct}%`;
+    };
+
+    this.updateStatusInstrument = updateInstStatus;
+
+    // Listen for instrument changes
+    if (window.instrumentManager) {
+      window.instrumentManager.onInstrumentChange(() => updateInstStatus());
+    }
+
+    // Velocity slider sync
+    const velSlider = document.getElementById('velocity-slider');
+    const velValText = document.getElementById('velocity-value-text');
+    if (velSlider) {
+      velSlider.addEventListener('input', (e) => {
+        const pct = parseInt(e.target.value, 10);
+        if (window.noteMapper) window.noteMapper.velocity = pct / 100;
+        if (velValText) velValText.textContent = `${pct}%`;
+        updateInstStatus();
+      });
+    }
+
+    // Playhead position RAF loop with dirty-check caching (avoids 60fps layout thrashing when paused)
+    let lastFormattedTime = '';
+    const updatePlayhead = () => {
+      if (playheadPos && window.trackManager) {
+        const t = window.trackManager.currentTime || 0;
+        const mins = Math.floor(t / 60);
+        const secs = Math.floor(t % 60);
+        const ms = Math.floor((t % 1) * 100);
+        const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${String(ms).padStart(2, '0')}`;
+        if (formatted !== lastFormattedTime) {
+          lastFormattedTime = formatted;
+          playheadPos.textContent = formatted;
+        }
+      }
+      requestAnimationFrame(updatePlayhead);
+    };
+    requestAnimationFrame(updatePlayhead);
+
+    // Initial instrument update
+    setTimeout(updateInstStatus, 500);
+  }
+
   _bindTopToolbar() {
     // Enable Audio unlock button
     const enableBtn = document.getElementById('btn-enable-audio');
@@ -277,7 +423,7 @@ class VirtualMusicStudioApp {
       enableBtn.addEventListener('click', async () => {
         try {
           await window.audioEngine.unlockAudio();
-          this.showToast('Audio Engine Unlocked: 44.1kHz Interactive');
+          this.showToast('Audio Engine Unlocked: Audio Active');
         } catch (err) {
           console.error('[App] Enable Audio click error:', err);
           this.showToast('Failed to enable audio: ' + err.message);
@@ -366,12 +512,17 @@ class VirtualMusicStudioApp {
       });
     }
 
-    // BPM Controller
+    // BPM Controller with immediate live synchronisation
     const bpmInput = document.getElementById('studio-bpm-input');
     if (bpmInput) {
-      bpmInput.addEventListener('change', (e) => {
-        window.trackManager.setBpm(parseInt(e.target.value, 10));
-      });
+      const handleBpm = (e) => {
+        const val = parseInt(e.target.value, 10);
+        if (!isNaN(val) && window.trackManager) {
+          window.trackManager.setBpm(val);
+        }
+      };
+      bpmInput.addEventListener('input', handleBpm);
+      bpmInput.addEventListener('change', handleBpm);
     }
 
     // Master Volume Slider
@@ -385,23 +536,25 @@ class VirtualMusicStudioApp {
       });
     }
 
-    // Octave Shift Buttons in studio header
+    // Octave Shift Buttons in studio header (Centralized routing)
     const octDownBtn = document.getElementById('btn-octave-down');
     if (octDownBtn) {
-      octDownBtn.addEventListener('click', () => {
-        window.noteMapper.shiftOctave(-1);
-        window.keyboardController.updateKeyLabels();
-        window.keyboardController.scrollKeyboardToOctave(window.noteMapper.baseOctave);
-      });
+      octDownBtn.onclick = (e) => {
+        e.preventDefault();
+        if (window.keyboardController) {
+          window.keyboardController.shiftOctave(-1);
+        }
+      };
     }
 
     const octUpBtn = document.getElementById('btn-octave-up');
     if (octUpBtn) {
-      octUpBtn.addEventListener('click', () => {
-        window.noteMapper.shiftOctave(1);
-        window.keyboardController.updateKeyLabels();
-        window.keyboardController.scrollKeyboardToOctave(window.noteMapper.baseOctave);
-      });
+      octUpBtn.onclick = (e) => {
+        e.preventDefault();
+        if (window.keyboardController) {
+          window.keyboardController.shiftOctave(1);
+        }
+      };
     }
 
     // Sustain Pedal button
@@ -467,12 +620,25 @@ class VirtualMusicStudioApp {
 
   _bindEffectsRack() {
     const bindKnob = (id, paramKey) => {
-      const el = document.getElementById(id);
-      if (el) {
+      document.querySelectorAll(`[id="${id}"]`).forEach(el => {
         el.addEventListener('input', (e) => {
-          window.studioEffects.setParam(paramKey, parseFloat(e.target.value));
+          const val = parseFloat(e.target.value);
+          if (window.studioEffects) {
+            window.studioEffects.setParam(paramKey, val);
+          }
+          if (window.mixerEngine && window.mixerEngine.ctx) {
+            if (paramKey === 'reverbWet' && window.mixerEngine.auxReverb.returnGain) {
+              window.mixerEngine.auxReverb.returnGain.gain.setTargetAtTime(val, window.mixerEngine.ctx.currentTime, 0.05);
+            } else if (paramKey === 'delayWet' && window.mixerEngine.auxDelay.returnGain) {
+              window.mixerEngine.auxDelay.returnGain.gain.setTargetAtTime(val, window.mixerEngine.ctx.currentTime, 0.05);
+            }
+          }
+          // Synchronize mirrored controls across views
+          document.querySelectorAll(`[id="${id}"]`).forEach(sibling => {
+            if (sibling !== el) sibling.value = val;
+          });
         });
-      }
+      });
     };
 
     bindKnob('fx-reverb-wet', 'reverbWet');
@@ -494,66 +660,337 @@ class VirtualMusicStudioApp {
     this.visualizerCtx = this.visualizerCanvas.getContext('2d');
 
     const toggleBtn = document.getElementById('visualizer-toggle-mode');
+    const modeText = document.getElementById('v-mode-text');
+    const modeIcon = document.querySelector('.v-mode-icon');
     if (toggleBtn) {
       toggleBtn.addEventListener('click', () => {
         this.visualizerMode = this.visualizerMode === 'frequency' ? 'wave' : 'frequency';
+        if (modeText) modeText.textContent = this.visualizerMode === 'frequency' ? 'Spectrum' : 'Waveform';
+        if (modeIcon) modeIcon.textContent = this.visualizerMode === 'frequency' ? '📊' : '〰️';
       });
     }
 
-    const freqData = new Uint8Array(256);
-    const waveData = new Uint8Array(256);
+    const freqData = new Uint8Array(128);
+    const waveData = new Uint8Array(128);
+    let idleAngle = 0;
+
+    const resizeCanvas = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = this.visualizerCanvas.getBoundingClientRect();
+      const displayWidth = rect.width || 220;
+      const displayHeight = rect.height || 52;
+      const targetW = Math.floor(displayWidth * dpr);
+      const targetH = Math.floor(displayHeight * dpr);
+      if (this.visualizerCanvas.width !== targetW || this.visualizerCanvas.height !== targetH) {
+        this.visualizerCanvas.width = targetW;
+        this.visualizerCanvas.height = targetH;
+      }
+    };
+    resizeCanvas();
+    let resizeRafId = null;
+    window.addEventListener('resize', () => {
+      if (resizeRafId) cancelAnimationFrame(resizeRafId);
+      resizeRafId = requestAnimationFrame(resizeCanvas);
+    });
 
     const draw = () => {
       requestAnimationFrame(draw);
-      if (!window.audioEngine.analyser) return;
+      if (!this.visualizerCanvas || !this.visualizerCtx) return;
 
-      const w = this.visualizerCanvas.width;
-      const h = this.visualizerCanvas.height;
+      const dpr = window.devicePixelRatio || 1;
+      const w = this.visualizerCanvas.width / dpr;
+      const h = this.visualizerCanvas.height / dpr;
       const ctx = this.visualizerCtx;
 
+      ctx.save();
+      ctx.scale(dpr, dpr);
       ctx.clearRect(0, 0, w, h);
 
-      if (this.visualizerMode === 'frequency') {
-        window.audioEngine.getAnalyserData(freqData);
-        const barWidth = (w / 48);
-        let x = 0;
+      // Check if audio context is running and producing sound
+      const isAudioRunning = window.audioEngine && window.audioEngine.ctx && window.audioEngine.ctx.state === 'running';
 
-        for (let i = 0; i < 48; i++) {
-          const val = freqData[i * 4] / 255.0;
-          const barHeight = val * h * 0.95;
+      let hasSignal = false;
+      if (isAudioRunning && window.audioEngine.analyser) {
+        if (this.visualizerMode === 'frequency') {
+          window.audioEngine.getAnalyserData(freqData);
+          for (let i = 0; i < 32; i++) {
+            if (freqData[i * 2] > 6) { hasSignal = true; break; }
+          }
+        } else {
+          window.audioEngine.getWaveformData(waveData);
+          for (let i = 0; i < 32; i++) {
+            if (Math.abs(waveData[i * 4] - 128) > 3) { hasSignal = true; break; }
+          }
+        }
+      }
 
-          const grad = ctx.createLinearGradient(0, h - barHeight, 0, h);
-          grad.addColorStop(0, '#A78BFA');
-          grad.addColorStop(0.5, '#8B5CF6');
-          grad.addColorStop(1, '#6D28D9');
+      // Refresh cached computed accent every ~40 frames to avoid layout thrashing
+      if (this.visualizerFrameCount === undefined) {
+        this.visualizerFrameCount = 0;
+        this.cachedAcc = '#8057D9';
+        this.cachedAcc2 = '#477DD0';
+      }
+      this.visualizerFrameCount++;
+      if (this.visualizerFrameCount % 40 === 0) {
+        const computed = getComputedStyle(document.documentElement);
+        this.cachedAcc = computed.getPropertyValue('--acc').trim() || '#8057D9';
+        this.cachedAcc2 = computed.getPropertyValue('--acc2').trim() || '#477DD0';
+      }
 
-          ctx.fillStyle = grad;
-          ctx.fillRect(x, h - barHeight, barWidth - 1, barHeight);
-          x += barWidth;
+      const primaryColor = this.cachedAcc;
+      const lightColor = this.cachedAcc2;
+      const darkColor = 'rgba(7, 19, 33, 0.85)';
+
+      if (!hasSignal) {
+        // Dynamic Ambient Idle Animation (breathing spectrum bars or sine wave glow)
+        idleAngle += 0.035;
+        if (this.visualizerMode === 'frequency') {
+          const barCount = 36;
+          const barWidth = w / barCount;
+          for (let i = 0; i < barCount; i++) {
+            const wave = Math.sin(idleAngle + (i * 0.28)) * 0.5 + 0.5;
+            const barHeight = Math.max(3, wave * (h * 0.4) + 2);
+            const grad = ctx.createLinearGradient(0, h - barHeight, 0, h);
+            grad.addColorStop(0, lightColor);
+            grad.addColorStop(1, 'rgba(139, 92, 246, 0.08)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(i * barWidth + 1, h - barHeight, barWidth - 2, barHeight);
+          }
+        } else {
+          ctx.beginPath();
+          ctx.lineWidth = 1.8;
+          ctx.strokeStyle = primaryColor;
+          ctx.shadowColor = primaryColor;
+          ctx.shadowBlur = 6;
+          for (let x = 0; x < w; x += 2) {
+            const y = (h / 2) + Math.sin(idleAngle + (x * 0.045)) * (h * 0.2);
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+          ctx.shadowBlur = 0;
         }
       } else {
-        window.audioEngine.getWaveformData(waveData);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#06B6D4';
-        ctx.beginPath();
+        // Active Real-Time DSP Audio Visualization
+        if (this.visualizerMode === 'frequency') {
+          const barCount = 36;
+          const barWidth = w / barCount;
+          for (let i = 0; i < barCount; i++) {
+            const dataIdx = Math.floor((i / barCount) * (freqData.length * 0.65));
+            const val = freqData[dataIdx] / 255.0;
+            const barHeight = Math.max(3, val * (h - 4));
 
-        const sliceWidth = w / waveData.length;
-        let x = 0;
+            const grad = ctx.createLinearGradient(0, h - barHeight, 0, h);
+            grad.addColorStop(0, lightColor);
+            grad.addColorStop(0.5, primaryColor);
+            grad.addColorStop(1, darkColor);
 
-        for (let i = 0; i < waveData.length; i++) {
-          const v = waveData[i] / 128.0;
-          const y = (v * h) / 2;
+            ctx.fillStyle = grad;
+            ctx.fillRect(i * barWidth + 1, h - barHeight, barWidth - 2, barHeight);
+          }
+        } else {
+          ctx.beginPath();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = primaryColor;
+          ctx.shadowColor = lightColor;
+          ctx.shadowBlur = 8;
 
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-
-          x += sliceWidth;
+          const sliceWidth = w / waveData.length;
+          let x = 0;
+          for (let i = 0; i < waveData.length; i++) {
+            const v = waveData[i] / 128.0;
+            const y = (v * h) / 2;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+            x += sliceWidth;
+          }
+          ctx.stroke();
+          ctx.shadowBlur = 0;
         }
-        ctx.stroke();
       }
+
+      ctx.restore();
     };
 
     draw();
+  }
+
+  /* ==================== STUDIO HOME DASHBOARD ==================== */
+  initDashboard() {
+    this.renderDashboardRecentProjects();
+    this.updateDashboardSession();
+
+    // Bind New Project Button in Dashboard
+    const newProjBtn = document.getElementById('dash-btn-new-project');
+    if (newProjBtn) {
+      newProjBtn.addEventListener('click', () => {
+        if (window.projectManager) {
+          window.projectManager.newProject();
+          this.renderDashboardRecentProjects();
+          this.updateDashboardSession();
+          this.showToast('Created New Blank Project');
+        }
+      });
+    }
+
+    // Bind Instant Record Tile
+    const recTile = document.getElementById('dash-tile-record');
+    if (recTile) {
+      recTile.addEventListener('click', () => {
+        const recBtn = document.getElementById('transport-record-btn');
+        if (recBtn) recBtn.click();
+      });
+    }
+
+    // Bind Piano Roll Tile
+    const prTile = document.getElementById('dash-tile-pianoroll');
+    if (prTile) {
+      prTile.addEventListener('click', () => {
+        if (window.pianoRoll && window.trackManager && window.trackManager.tracks.length > 0) {
+          window.pianoRoll.openTrack(window.trackManager.tracks[0]);
+        } else {
+          window.navigateTo('arranger');
+        }
+      });
+    }
+
+    // Bind Tutorial Recording Quick Tip
+    const tipRec = document.getElementById('dash-tip-rec');
+    if (tipRec) {
+      tipRec.addEventListener('click', () => {
+        window.navigateTo('tutorials');
+        if (window.tutorialManager) {
+          const recTut = window.tutorialManager.tutorials.find(t => t.id === 'intro_qwerty') || window.tutorialManager.tutorials[0];
+          if (recTut) window.tutorialManager.startTutorial(recTut.id);
+        }
+      });
+    }
+
+    // Subscribe to state changes for real-time live session updates
+    if (window.instrumentManager) {
+      window.instrumentManager.onInstrumentChange(() => this.updateDashboardSession());
+    }
+
+    if (window.trackManager) {
+      window.trackManager.onBpmChange(() => this.updateDashboardSession());
+    }
+
+    if (window.audioEngine) {
+      window.audioEngine.onStateChange(() => this.updateDashboardSession());
+    }
+
+    // Refresh dashboard projects on save
+    const saveBtn = document.getElementById('btn-save-project');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        setTimeout(() => {
+          this.renderDashboardRecentProjects();
+          this.updateDashboardSession();
+        }, 300);
+      });
+    }
+  }
+
+  async renderDashboardRecentProjects() {
+    const listEl = document.getElementById('dash-recent-projects-list');
+    if (!listEl) return;
+
+    if (!window.projectManager || !window.projectManager.db) {
+      listEl.innerHTML = '<div class="dash-empty-state">Project database initializing...</div>';
+      return;
+    }
+
+    try {
+      const projects = await window.projectManager.getAllProjects();
+      if (!projects || projects.length === 0) {
+        listEl.innerHTML = `
+          <div class="dash-empty-state">
+            <span>No saved projects yet.</span><br>
+            <button class="btn btn-xs btn-primary" style="margin-top: 6px;" onclick="window.projectManager.saveProject('My First Symphony').then(() => window.app.renderDashboardRecentProjects())">Save Current Project</button>
+          </div>
+        `;
+        return;
+      }
+
+      // Sort by updatedAt descending, show top 4
+      const recent = [...projects].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 4);
+
+      listEl.innerHTML = '';
+      recent.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'dash-project-item';
+        item.title = `Click to load: "${p.name}"`;
+        const updatedDate = new Date(p.updatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' });
+        const tracksCount = p.tracks ? p.tracks.length : 1;
+
+        item.innerHTML = `
+          <div class="dash-project-info">
+            <span class="dash-project-name">🎵 ${this._escapeHtml(p.name)}</span>
+            <span class="dash-project-meta">${tracksCount} tracks • ${p.bpm || 120} BPM • ${updatedDate}</span>
+          </div>
+          <button class="btn btn-xs btn-ghost" style="padding: 2px 6px;">Load ▶</button>
+        `;
+
+        item.addEventListener('click', async () => {
+          await window.projectManager.loadProject(p.id);
+          this.updateDashboardSession();
+          this.showToast(`Loaded Project: "${p.name}"`);
+        });
+
+        listEl.appendChild(item);
+      });
+    } catch (e) {
+      console.warn('[App] Dashboard projects load note:', e);
+      listEl.innerHTML = '<div class="dash-empty-state">Recent projects available upon saving.</div>';
+    }
+  }
+
+  updateDashboardSession() {
+    // 1. Active Instrument
+    const instEl = document.getElementById('dash-session-inst');
+    if (instEl) {
+      const curInst = window.instrumentManager && window.instrumentManager.currentInstrument;
+      instEl.textContent = curInst ? curInst.name : 'Classical Piano';
+    }
+
+    // 2. Studio Tempo
+    const bpmEl = document.getElementById('dash-session-bpm');
+    if (bpmEl) {
+      const bpm = window.trackManager ? window.trackManager.bpm : 120;
+      bpmEl.textContent = `${bpm} BPM`;
+    }
+
+    // 3. Arranger Tracks
+    const tracksEl = document.getElementById('dash-session-tracks');
+    if (tracksEl) {
+      const count = window.trackManager && window.trackManager.tracks ? window.trackManager.tracks.length : 1;
+      tracksEl.textContent = `${count} Track${count === 1 ? '' : 's'} Active`;
+    }
+
+    // 4. Master Engine
+    const engineEl = document.getElementById('dash-session-engine');
+    if (engineEl) {
+      const isRunning = window.audioEngine && window.audioEngine.ctx && window.audioEngine.ctx.state === 'running';
+      if (isRunning) {
+        engineEl.textContent = '44.1 kHz • Active';
+        engineEl.style.color = '#10B981';
+      } else {
+        engineEl.textContent = 'Audio: Locked';
+        engineEl.style.color = 'var(--text-muted)';
+      }
+    }
+
+    // 5. Current Project Name
+    const projEl = document.getElementById('dash-session-project');
+    if (projEl) {
+      const name = window.projectManager && window.projectManager.currentProject ? window.projectManager.currentProject.name : 'Untitled Symphony';
+      projEl.textContent = name;
+    }
+  }
+
+  _escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   _bindModals() {

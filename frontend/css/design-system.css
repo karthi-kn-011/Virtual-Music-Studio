@@ -1,0 +1,152 @@
+/**
+ * Virtual Music Studio - Studio Precision Design System
+ * Premium Midnight Violet & Blue Gradient Theme
+ */
+
+:root {
+  /* Default Color Palette Constants */
+  --color-midnight: #050B15;
+  --color-deep-navy: #071321;
+  --color-elevated-navy: #0B1928;
+  --color-deep-violet: #24103D;
+  --color-purple-accent: #8057D9;
+  --color-blue-accent: #477DD0;
+  --color-soft-blue: #315FAD;
+  --color-teal-accent: #52C9B2;
+  --color-text-primary: #E6EDF5;
+  --color-text-secondary: #A5B8B8;
+  --color-text-muted: #82949F;
+  --color-subtle-borders: #1C3042;
+
+  /* Brand Precision Palette */
+  --color-violet: #8057D9;
+  --color-violet-light: #A78BFA;
+  --color-violet-dark: #24103D;
+  --color-violet-glow: rgba(128, 87, 217, 0.4);
+  --color-violet-subtle: rgba(128, 87, 217, 0.16);
+
+  --color-lavender: #C4B5FD;
+  --color-lavender-glow: rgba(196, 181, 253, 0.25);
+
+  --color-cyan: #477DD0;
+  --color-cyan-light: #70A0E8;
+  --color-cyan-dark: #315FAD;
+  --color-cyan-glow: rgba(71, 125, 208, 0.35);
+  --color-cyan-subtle: rgba(71, 125, 208, 0.14);
+
+  --color-teal: #52C9B2;
+  --color-teal-glow: rgba(82, 201, 178, 0.35);
+  --color-teal-subtle: rgba(82, 201, 178, 0.12);
+
+  --color-amber: #FBBF24;
+  --color-amber-glow: rgba(251, 191, 36, 0.3);
+
+  /* Semantic Colors */
+  --color-success: #52C9B2;
+  --color-success-glow: rgba(82, 201, 178, 0.35);
+  --color-warning: #FBBF24;
+  --color-warning-glow: rgba(251, 191, 36, 0.35);
+  --color-error: #FB7185;
+  --color-error-glow: rgba(251, 113, 133, 0.35);
+  --color-record: #F43F5E;
+  --color-record-glow: rgba(244, 63, 94, 0.55);
+  --color-audio-active: #52C9B2;
+
+  /* Surfaces & Backgrounds */
+  --bg-main: #050B15;
+  --bg-app: #071321;
+  --bg-panel: #0B1928;
+  --bg-elevated: #0B1928;
+  --bg-interactive: #0E2034;
+  --bg-interactive-hover: #142B44;
+  --bg-input: #071321;
+  --bg-translucent: rgba(11, 25, 40, 0.85);
+
+  /* Borders & Dividers */
+  --border-subtle: #1C3042;
+  --border-standard: #1C3042;
+  --border-elevated: #25425B;
+  --border-highlight: rgba(128, 87, 217, 0.5);
+  --border-cyan-highlight: rgba(71, 125, 208, 0.45);
+
+  /* Typography */
+  --text-primary: #E6EDF5;
+  --text-secondary: #A5B8B8;
+  --text-muted: #82949F;
+  --text-disabled: #52636E;
+  --text-inverse: #050B15;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.65);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  --shadow-inset-groove: inset 0 1px 3px rgba(0, 0, 0, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+
+  --shadow-glow-violet: 0 0 16px var(--color-violet-glow);
+  --shadow-glow-cyan: 0 0 16px var(--color-cyan-glow);
+  --shadow-glow-record: 0 0 18px var(--color-record-glow);
+
+  /* Transitions & Animations */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Shell Measurements */
+  --header-height: 54px;
+  --sidebar-width: 240px;
+  --sidebar-width-expanded: 240px;
+  --sidebar-width-collapsed: 68px;
+  --statusbar-height: 28px;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--bg-translucent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-standard);
+}
+
+/* Standard Base Typography Utilities */
+.mono-text {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' on, 'zero' on;
+}
+
+/* Modern Pulse Animations */
+@keyframes studio-pulse-violet {
+  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(139, 92, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+}
+
+@keyframes studio-pulse-record {
+  0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.8); transform: scale(1); }
+  50% { box-shadow: 0 0 14px 4px rgba(244, 63, 94, 0.4); transform: scale(1.02); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.8); transform: scale(1); }
+}
+
+@keyframes studio-pulse-cyan {
+  0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.8); }
+  70% { box-shadow: 0 0 0 6px rgba(34, 211, 238, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+}
+
+@keyframes meter-glow {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}

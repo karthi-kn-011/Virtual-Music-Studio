@@ -1,8 +1,109 @@
 /**
- * Virtual Music Studio - Responsive Design Styles
+ * Virtual Music Studio - Responsive Design System
+ * Viewports supported & audited:
+ * - 1920 × 1080 (and 1912 × 967 Ultrawide Desktop)
+ * - 1700 × 860 (Desktop DAW)
+ * - 1440 × 900 (Pro Laptop)
+ * - 1366 × 768 (Standard Laptop)
+ * - 1280 × 800 (Compact Desktop)
+ * - 1024 × 768 (Tablet Landscape / iPad)
+ * - 768 × 1024 (Tablet Portrait)
+ * - 390 × 844 (Mobile)
  */
 
+/* ==================== 1. WIDESCREEN & ULTRA-WIDE (1600px+) ==================== */
+@media (min-width: 1600px) {
+  .views-container {
+    padding: 16px 24px 48px 24px;
+  }
+
+  .studio-home-dashboard {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ==================== 2. PRO LAPTOP (1367px - 1440px) ==================== */
+@media (max-width: 1440px) {
+  .brand-text .tagline {
+    display: none;
+  }
+  .project-name-box input {
+    width: 95px;
+  }
+  .transport-group {
+    gap: 5px;
+  }
+  .transport-divider {
+    margin: 0 2px;
+  }
+  .master-volume-box input[type="range"] {
+    width: 54px;
+  }
+}
+
+/* ==================== 3. STANDARD LAPTOP & COMPACT DESKTOP (1201px - 1366px) ==================== */
+@media (max-width: 1366px) {
+  .brand-text .tagline {
+    display: none;
+  }
+  .project-name-box input {
+    width: 85px;
+  }
+  .bpm-ctrl input {
+    width: 44px;
+  }
+  .transport-group {
+    gap: 4px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .master-volume-box input[type="range"] {
+    width: 46px;
+  }
+  .project-name-box input {
+    width: 75px;
+  }
+  .quick-effects-rack {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .studio-home-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ==================== 4. TABLET LANDSCAPE / SMALL LAPTOP (769px - 1024px) ==================== */
 @media (max-width: 1024px) {
+  .daw-body {
+    grid-template-columns: var(--sidebar-width-collapsed, 68px) minmax(0, 1fr);
+  }
+
+  .daw-sidebar {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .daw-sidebar .sidebar-title,
+  .daw-sidebar .sidebar-group-label,
+  .daw-sidebar .nav-text,
+  .daw-sidebar .sidebar-badge {
+    display: none;
+  }
+
+  .daw-sidebar .nav-link {
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .daw-sidebar .instrument-status-badge {
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .daw-sidebar .instrument-status-badge span.badge-title {
+    display: none;
+  }
+
   .music-lab-layout {
     grid-template-columns: 1fr;
   }
@@ -10,7 +111,7 @@
   .current-instrument-hero {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 12px;
   }
 
   .hero-right-visualizer {
@@ -18,33 +119,90 @@
     width: 100%;
   }
 
+  .visualizer-box {
+    width: 100%;
+  }
+
   .visualizer-box canvas {
     width: 100%;
   }
-}
 
-@media (max-width: 768px) {
-  .studio-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
+  .quick-effects-rack {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .top-toolbar {
-    width: 100%;
-    justify-content: space-between;
+  .studio-home-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .piano-keys-wrapper {
+    height: 155px;
   }
 
   .piano-key.white-key {
-    width: 36px;
-    height: 160px;
+    width: 34px;
+    height: 145px;
   }
 
   .piano-key.black-key {
-    width: 24px;
-    height: 100px;
-    margin-left: -12px;
-    margin-right: -12px;
+    width: 20px;
+    height: 92px;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+}
+
+/* ==================== 5. TABLET PORTRAIT (481px - 768px) ==================== */
+@media (max-width: 768px) {
+  .studio-header {
+    height: auto;
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .transport-group {
+    gap: 4px;
+  }
+
+  .brand-text {
+    display: none;
+  }
+
+  .daw-body {
+    grid-template-columns: var(--sidebar-width-collapsed, 68px) minmax(0, 1fr);
+  }
+
+  .daw-statusbar {
+    font-size: 9px;
+    padding: 0 8px;
+  }
+
+  .statusbar-pill {
+    display: none;
+  }
+
+  .piano-keys-wrapper {
+    height: 140px;
+  }
+
+  .piano-key.white-key {
+    width: 30px;
+    height: 132px;
+  }
+
+  .piano-key.black-key {
+    width: 18px;
+    height: 82px;
+    margin-left: -9px;
+    margin-right: -9px;
+  }
+
+  .quick-effects-rack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .studio-home-dashboard {
+    grid-template-columns: 1fr;
   }
 
   .instruments-filter-bar {
@@ -59,5 +217,67 @@
   .arranger-toolbar {
     flex-direction: column;
     align-items: stretch;
+  }
+}
+
+/* ==================== 6. MOBILE PHONES (390px - 480px) ==================== */
+@media (max-width: 480px) {
+  .daw-body {
+    grid-template-columns: 54px minmax(0, 1fr);
+  }
+
+  .daw-sidebar .nav-link {
+    padding: 8px 0;
+  }
+
+  .views-container {
+    padding: 8px 10px 48px 10px;
+  }
+
+  .studio-header {
+    padding: 4px 6px;
+  }
+
+  .keyboard-controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .octave-selector-group,
+  .velocity-selector-group,
+  .keyboard-action-buttons {
+    justify-content: center;
+  }
+
+  .piano-keys-wrapper {
+    height: 125px;
+    padding: 0 10px;
+  }
+
+  .piano-key.white-key {
+    width: 28px;
+    height: 115px;
+  }
+
+  .piano-key.black-key {
+    width: 16px;
+    height: 72px;
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+
+  .quick-effects-rack {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .studio-home-dashboard {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .instruments-grid {
+    grid-template-columns: 1fr;
   }
 }

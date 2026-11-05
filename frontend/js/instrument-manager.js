@@ -91,12 +91,10 @@ class InstrumentManager {
     if (window.keyboardController) {
       window.keyboardController.currentInstrument = inst;
       window.keyboardController.stopAllNotes();
-      if (inst.defaultOctave && window.noteMapper) {
-        window.noteMapper.setOctave(inst.defaultOctave);
-      }
-      window.keyboardController.updateKeyLabels();
       if (inst.defaultOctave) {
-        window.keyboardController.scrollKeyboardToOctave(inst.defaultOctave);
+        window.keyboardController.setOctave(inst.defaultOctave, true);
+      } else {
+        window.keyboardController.updateKeyLabels();
       }
     }
 
@@ -129,7 +127,14 @@ class InstrumentManager {
     if (heroName) heroName.textContent = inst.name;
     if (heroFamily) heroFamily.textContent = inst.family;
     if (heroDesc) heroDesc.textContent = inst.description;
-    if (heroIcon) heroIcon.innerHTML = this.getInstrumentSvg(inst.id);
+    if (heroIcon) {
+      heroIcon.innerHTML = `
+        <img src="assets/instruments/${inst.id}.svg" alt="${inst.name}" class="hero-artwork-img" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
+        <div class="fallback-hero-svg" style="display:none; color: ${inst.badgeColor || '#8B5CF6'}">
+          ${this.getInstrumentSvg(inst.id)}
+        </div>
+      `;
+    }
   }
 
   onInstrumentChange(cb) {
@@ -212,7 +217,8 @@ class InstrumentManager {
           <button class="inst-fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">★</button>
         </div>
         <div class="inst-illustration-box">
-          <div class="inst-svg-icon" style="color: ${inst.badgeColor || '#8B5CF6'}">
+          <img src="assets/instruments/${inst.id}.svg" alt="${inst.name}" class="inst-artwork-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
+          <div class="inst-svg-icon fallback-svg" style="display:none; color: ${inst.badgeColor || '#8B5CF6'}">
             ${this.getInstrumentSvg(inst.id)}
           </div>
         </div>

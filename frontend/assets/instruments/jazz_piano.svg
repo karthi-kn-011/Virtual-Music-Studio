@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgJazz" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1324"/>
+      <stop offset="50%" stop-color="#261A35"/>
+      <stop offset="100%" stop-color="#0E0A16"/>
+    </linearGradient>
+    <radialGradient id="jazzSpot" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#A855F7" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#6B21A8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="jazzWood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4C1D95"/>
+      <stop offset="50%" stop-color="#2E1065"/>
+      <stop offset="100%" stop-color="#17092B"/>
+    </linearGradient>
+    <filter id="jazzShadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgJazz)"/>
+  <circle cx="160" cy="85" r="110" fill="url(#jazzSpot)"/>
+  
+  <!-- Smoky Jazz Club Light Haze -->
+  <path d="M 50 160 Q 160 40 270 160" fill="none" stroke="#D8B4FE" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 4"/>
+  
+  <!-- Intimate Baby Grand Jazz Shape -->
+  <g filter="url(#jazzShadow)">
+    <path d="M 65 118 C 65 72, 115 50, 175 50 C 220 50, 245 70, 245 95 C 245 115, 230 118, 220 118 L 65 118 Z" fill="url(#jazzWood)" stroke="#C084FC" stroke-width="1.2"/>
+    <!-- Prop Stick -->
+    <line x1="175" y1="52" x2="160" y2="90" stroke="#FDE68A" stroke-width="1.8"/>
+    
+    <rect x="60" y="118" width="170" height="32" rx="2" fill="#0A0612" stroke="#7E22CE" stroke-width="1"/>
+    
+    <!-- Jazz Keys -->
+    <g transform="translate(65, 120)">
+      <rect x="0" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="12.5" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="25" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="37.5" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="50" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="62.5" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="75" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="87.5" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="100" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="112.5" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="125" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="137.5" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <rect x="150" y="0" width="12" height="28" rx="1" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.5"/>
+      <!-- Black Keys -->
+      <rect x="8" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="21" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="46" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="58.5" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="71" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="95.5" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="108" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="133" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+      <rect x="145.5" y="0" width="7" height="17" rx="1" fill="#09060E"/>
+    </g>
+    
+    <rect x="72" y="150" width="7" height="24" fill="#2E1065"/>
+    <rect x="215" y="118" width="7" height="56" fill="#2E1065"/>
+  </g>
+  
+  <text x="20" y="186" fill="#C084FC" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">VINTAGE JAZZ CLUB PIANO</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">SWING • BLUE NOTE</text>
+</svg>

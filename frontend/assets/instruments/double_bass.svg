@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgBass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#140E0A"/>
+      <stop offset="50%" stop-color="#241710"/>
+      <stop offset="100%" stop-color="#0A0604"/>
+    </linearGradient>
+    <radialGradient id="bassSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#D97706" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#78350F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="agedSpruce" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#78350F"/>
+      <stop offset="40%" stop-color="#451A03"/>
+      <stop offset="100%" stop-color="#1C0A02"/>
+    </linearGradient>
+    <filter id="bassShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgBass)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#bassSpot)"/>
+  
+  <g filter="url(#bassShadow)">
+    <!-- Bass Pegbox & Heavy Brass Machine Gears -->
+    <rect x="25" y="93" width="35" height="14" rx="2" fill="#3D1D09" transform="rotate(-10 42 100)"/>
+    <circle cx="32" cy="88" r="3.5" fill="#F59E0B"/>
+    <circle cx="44" cy="86" r="3.5" fill="#F59E0B"/>
+    <circle cx="38" cy="112" r="3.5" fill="#F59E0B"/>
+    <circle cx="50" cy="110" r="3.5" fill="#F59E0B"/>
+
+    <!-- Long Ebony Fingerboard -->
+    <rect x="58" y="94" width="95" height="12" fill="#18181B" transform="rotate(-3 105 100)"/>
+
+    <!-- Massive Sloping Shoulder Acoustic Upright Body -->
+    <g transform="translate(142, 18)">
+      <path d="M 10 75 C 6 40, 42 32, 65 44 C 85 54, 82 66, 75 74 C 70 80, 68 90, 74 98 C 82 106, 96 112, 95 130 C 94 152, 60 162, 42 162 C 22 162, -10 150, -8 128 C -6 112, 10 106, 14 98 C 18 90, 16 82, 10 75 Z" fill="url(#agedSpruce)" stroke="#B45309" stroke-width="1.5"/>
+      
+      <!-- Prominent Deep F-Holes -->
+      <path d="M 28 88 Q 25 80 32 78 Q 36 78 35 86 Q 32 98 37 106 Q 40 110 35 112 Q 30 112 31 104 Z" fill="#0A0402"/>
+      <path d="M 64 88 Q 61 80 68 78 Q 72 78 71 86 Q 68 98 73 106 Q 76 110 71 112 Q 66 112 67 104 Z" fill="#0A0402"/>
+
+      <!-- Heavy Maple Bridge -->
+      <path d="M 44 98 L 56 98 L 59 108 L 41 108 Z" fill="#FEF3C7" stroke="#92400E" stroke-width="0.8"/>
+      <!-- Tailpiece & Heavy Endpin -->
+      <polygon points="48,114 52,148 44,148 46,114" fill="#09090B"/>
+      <!-- Steel Endpin Spike -->
+      <line x1="47" y1="162" x2="47" y2="182" stroke="#CBD5E1" stroke-width="2.5"/>
+    </g>
+
+    <!-- 4 Heavy Core Steel Bass Strings (E1, A1, D2, G2) -->
+    <line x1="38" y1="94" x2="190" y2="120" stroke="#CBD5E1" stroke-width="1.8"/>
+    <line x1="40" y1="97" x2="192" y2="122" stroke="#E2E8F0" stroke-width="1.6"/>
+    <line x1="42" y1="100" x2="194" y2="124" stroke="#E2E8F0" stroke-width="1.4"/>
+    <line x1="44" y1="103" x2="196" y2="126" stroke="#F8FAFC" stroke-width="1.2"/>
+  </g>
+  
+  <text x="20" y="186" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">ORCHESTRAL DOUBLE BASS</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">SUB-BASS • 41.2Hz (E1)</text>
+</svg>

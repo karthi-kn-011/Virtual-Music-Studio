@@ -1,11 +1,12 @@
 /**
  * Virtual Music Studio - Multi-Track Arranger & Piano Roll Styles
+ * Studio Precision Theme: Dark Graphite, Royal Violet, Cyber Lavender & Electric Cyan
  */
 
 .arranger-view-layout {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   flex: 1;
 }
 
@@ -13,37 +14,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-card);
-  padding: 10px 16px;
+  background: var(--bg-panel);
+  padding: 8px 14px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-standard);
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
 }
 
 .arranger-controls-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 /* Multi-Track DAW Container */
 .arranger-workspace {
-  background: #090914;
-  border: 1px solid var(--border-subtle);
+  background: #0B0B0E;
+  border: 1px solid var(--border-standard);
   border-radius: var(--radius-lg);
   overflow-x: auto;
   overflow-y: auto;
   max-height: 520px;
   position: relative;
-  box-shadow: inset 0 2px 15px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 2px 15px rgba(0, 0, 0, 0.8);
 }
 
 /* Time Ruler */
 .timeline-ruler {
-  height: 32px;
-  background: #141424;
-  border-bottom: 1px solid var(--border-subtle);
+  height: 30px;
+  background: #141419;
+  border-bottom: 1px solid var(--border-standard);
   display: flex;
   position: sticky;
   top: 0;
@@ -53,15 +55,16 @@
 
 .ruler-header-spacer {
   width: 220px;
-  background: #10101E;
-  border-right: 1px solid var(--border-subtle);
+  background: #111116;
+  border-right: 1px solid var(--border-standard);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   padding-left: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
 }
 
 .ruler-ticks-area {
@@ -76,8 +79,8 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #EF4444;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+  background: var(--color-record);
+  box-shadow: 0 0 10px var(--color-record);
   z-index: 30;
   pointer-events: none;
   transition: none;
@@ -89,32 +92,32 @@
   top: 0;
   left: -5px;
   font-size: 10px;
-  color: #EF4444;
+  color: var(--color-record);
 }
 
 /* Track Row */
 .track-row {
   display: flex;
-  height: 84px;
+  height: 80px;
   border-bottom: 1px solid var(--border-subtle);
-  background: #0D0D1A;
+  background: #0E0E13;
   transition: background 0.15s ease;
 }
 
 .track-row:hover {
-  background: #121226;
+  background: #13131A;
 }
 
 .track-row.selected {
-  background: #161630;
-  border-left: 3px solid var(--accent-purple);
+  background: #171624;
+  border-left: 3px solid var(--color-violet);
 }
 
 .track-header {
   width: 220px;
   flex-shrink: 0;
-  background: #121223;
-  border-right: 1px solid var(--border-subtle);
+  background: #14141A;
+  border-right: 1px solid var(--border-standard);
   padding: 8px 12px;
   display: flex;
   flex-direction: column;
@@ -134,14 +137,14 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .track-inst-name {
-  font-size: 11px;
-  color: var(--text-dim);
+  font-size: 10px;
+  color: var(--text-muted);
 }
 
 .track-buttons {
@@ -151,35 +154,43 @@
 }
 
 .trk-btn {
-  background: var(--bg-dark);
+  background: var(--bg-interactive);
   border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
+  color: var(--text-secondary);
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
 }
 
 .trk-btn:hover {
-  color: #fff;
-  background: #252545;
+  color: #FFFFFF;
+  background: var(--bg-interactive-hover);
 }
 
 .trk-btn.btn-mute.active {
-  background: var(--accent-gold);
-  color: #000;
+  background: var(--color-amber);
+  color: #000000;
+  border-color: var(--color-amber);
 }
 
 .trk-btn.btn-solo.active {
-  background: var(--accent-cyan);
-  color: #000;
+  background: var(--color-cyan);
+  color: #000000;
+  border-color: var(--color-cyan);
 }
 
 .trk-btn.btn-arm.active {
-  background: var(--accent-red);
-  color: #fff;
+  background: var(--color-record);
+  color: #FFFFFF;
+  border-color: var(--color-record);
+  box-shadow: 0 0 8px var(--color-record);
 }
 
 .track-faders {
@@ -196,21 +207,21 @@
 
 .fader-group label {
   font-size: 9px;
-  color: var(--text-dim);
-  font-weight: 700;
+  color: var(--text-muted);
+  font-weight: 800;
 }
 
 .fader-group input[type="range"] {
   width: 100%;
-  accent-color: var(--accent-purple);
+  accent-color: var(--color-violet);
 }
 
 /* Track Lane & Note Blocks */
 .track-lane {
   flex: 1;
   position: relative;
-  background-image: linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 80px 100%; /* 80px = 1 second */
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 80px 100%;
   cursor: crosshair;
 }
 
@@ -219,12 +230,12 @@
   top: 14px;
   bottom: 14px;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   padding: 0 6px;
-  color: #fff;
+  color: #FFFFFF;
   font-size: 11px;
   font-weight: 700;
   overflow: hidden;
@@ -241,10 +252,10 @@
   width: 1300px;
   height: 92vh;
   padding: 12px 16px;
-  background: #0B0B16;
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  background: #0E0E14;
+  border: 1px solid var(--border-highlight);
   box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -257,10 +268,10 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px 12px;
-  background: #131326;
+  background: #14141A;
   padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-standard);
   flex-shrink: 0;
 }
 
@@ -279,15 +290,15 @@
 }
 
 .roll-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   margin: 0;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .roll-meta-info {
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   margin-top: 1px;
 }
 
@@ -298,36 +309,15 @@
   gap: 6px;
 }
 
-.btn-transport {
-  background: #1D1D36;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.btn-transport:hover {
-  background: #2B2B4E;
-}
-
-.btn-transport.playing {
-  background: var(--accent-purple);
-  color: #FFFFFF;
-}
-
 .roll-timecode {
   font-family: var(--font-mono, monospace);
   font-size: 12px;
   font-weight: 700;
-  color: #10B981;
-  background: #090912;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-cyan);
+  background: #09090D;
+  border: 1px solid var(--border-standard);
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   min-width: 60px;
   text-align: center;
 }
@@ -338,15 +328,15 @@
   align-items: center;
   gap: 6px;
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .roll-select {
-  background: #1A1A32;
-  color: #F1F5F9;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 4px;
+  background: var(--bg-interactive);
+  color: var(--text-primary);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-xs);
   padding: 4px 6px;
   font-size: 11px;
   outline: none;
@@ -354,38 +344,38 @@
 }
 
 .roll-select:focus {
-  border-color: var(--accent-purple);
+  border-color: var(--color-violet);
 }
 
 .roll-tool-buttons {
   display: flex;
   gap: 2px;
-  background: #0F0F1E;
+  background: #101015;
   padding: 2px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
 }
 
 .roll-tool-btn {
   background: transparent;
   border: none;
-  color: var(--text-dim);
+  color: var(--text-secondary);
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 1;
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
 }
 
 .roll-tool-btn:hover {
   color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-interactive);
 }
 
 .roll-tool-btn.active {
-  background: var(--accent-purple);
+  background: var(--color-violet);
   color: #FFFFFF;
 }
 
@@ -400,12 +390,12 @@
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   background: rgba(0, 0, 0, 0.25);
   padding: 4px 10px;
   border-radius: 4px;
   margin-top: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
   flex-shrink: 0;
 }
 
@@ -415,9 +405,9 @@
   flex-direction: column;
   flex: 1;
   overflow: hidden;
-  background: #090913;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
+  background: #0A0A0E;
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-md);
   margin-top: 6px;
   position: relative;
 }
@@ -426,19 +416,19 @@
 .roll-ruler-container {
   display: flex;
   height: 28px;
-  background: #131326;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #14141A;
+  border-bottom: 1px solid var(--border-standard);
   flex-shrink: 0;
 }
 
 .roll-ruler-spacer {
   width: 72px;
   flex-shrink: 0;
-  background: #0F0F20;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111116;
+  border-right: 1px solid var(--border-standard);
   font-size: 9px;
-  font-weight: 700;
-  color: var(--text-dim);
+  font-weight: 800;
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   padding-left: 8px;
@@ -477,7 +467,7 @@
   font-family: var(--font-mono, monospace);
   font-size: 10px;
   font-weight: 700;
-  color: #CBD5E1;
+  color: var(--text-secondary);
 }
 
 /* Piano Roll Body: Keys Gutter + Note Matrix */
@@ -490,8 +480,8 @@
 
 .piano-roll-keys-gutter {
   width: 72px;
-  background: #111122;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: #121217;
+  border-right: 1px solid var(--border-standard);
   overflow-y: scroll;
   scrollbar-width: none;
   flex-shrink: 0;
@@ -530,20 +520,20 @@
 }
 
 .roll-key.black-key {
-  background: #18182E;
+  background: #181822;
   color: #94A3B8;
 }
 
 .roll-key.root-key {
   font-weight: 800;
-  color: #10B981 !important;
-  border-left: 4px solid #10B981;
+  color: var(--color-cyan) !important;
+  border-left: 4px solid var(--color-cyan);
 }
 
 .roll-key.scale-key {
   font-weight: 700;
-  color: #8B5CF6;
-  border-left: 2px solid #8B5CF6;
+  color: var(--color-violet-light);
+  border-left: 2px solid var(--color-violet);
 }
 
 /* Note Matrix Grid */
@@ -556,7 +546,7 @@
 
 .piano-roll-grid {
   position: relative;
-  background: #0A0A14;
+  background: #0A0A0E;
 }
 
 .roll-grid-row {
@@ -565,7 +555,7 @@
 }
 
 .roll-grid-row.black-row {
-  background: rgba(0, 0, 0, 0.22);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .roll-grid-row.in-scale-row {
@@ -573,7 +563,7 @@
 }
 
 .roll-grid-row.root-row {
-  background: rgba(16, 185, 129, 0.09);
+  background: rgba(34, 211, 238, 0.08);
 }
 
 .roll-vertical-line {
@@ -623,8 +613,8 @@
 }
 
 .roll-note-block.selected {
-  outline: 2px solid #F59E0B;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.85);
+  outline: 2px solid var(--color-amber);
+  box-shadow: 0 0 12px var(--color-amber-glow);
   z-index: 8;
 }
 
@@ -653,8 +643,8 @@
 /* Velocity Lane */
 .roll-velocity-lane-container {
   height: 96px;
-  background: #0E0E1D;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0E0E14;
+  border-top: 1px solid var(--border-standard);
   display: flex;
   flex-shrink: 0;
   user-select: none;
@@ -662,15 +652,15 @@
 
 .roll-velocity-gutter {
   width: 72px;
-  background: #121224;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: #121217;
+  border-right: 1px solid var(--border-standard);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 4px 6px;
   font-size: 9px;
   font-family: var(--font-mono, monospace);
-  color: var(--text-dim);
+  color: var(--text-muted);
   flex-shrink: 0;
   text-align: right;
 }
@@ -692,7 +682,7 @@
   position: absolute;
   bottom: 0;
   width: 4px;
-  background: #8B5CF6;
+  background: var(--color-violet);
   border-radius: 2px 2px 0 0;
   pointer-events: auto;
   cursor: ns-resize;
@@ -706,18 +696,18 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #A78BFA;
+  background: var(--color-violet-light);
   border: 1px solid #FFFFFF;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
 .roll-vel-bar.selected {
-  background: #F59E0B;
+  background: var(--color-amber);
 }
 
 .roll-vel-bar.selected .roll-vel-handle {
   background: #FDE047;
-  box-shadow: 0 0 8px #F59E0B;
+  box-shadow: 0 0 8px var(--color-amber-glow);
 }
 
 /* Playhead Line */
@@ -726,8 +716,8 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #EF4444;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.9);
+  background: var(--color-record);
+  box-shadow: 0 0 10px var(--color-record);
   z-index: 20;
   pointer-events: none;
 }
@@ -738,13 +728,13 @@
   top: -6px;
   left: -5px;
   font-size: 11px;
-  color: #EF4444;
+  color: var(--color-record);
 }
 
 /* Selection Marquee Box */
 .roll-selection-marquee {
   position: absolute;
-  border: 1px dashed #A78BFA;
+  border: 1px dashed var(--color-violet-light);
   background: rgba(139, 92, 246, 0.18);
   pointer-events: none;
   display: none;

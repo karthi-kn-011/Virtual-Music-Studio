@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgFlamenco" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#21140E"/>
+      <stop offset="50%" stop-color="#361D12"/>
+      <stop offset="100%" stop-color="#120A06"/>
+    </linearGradient>
+    <radialGradient id="flamencoSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#EA580C" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#C2410C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cypressTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <filter id="flamencoShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgFlamenco)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#flamencoSpot)"/>
+  
+  <g filter="url(#flamencoShadow)">
+    <!-- Traditional Spanish Peghead -->
+    <path d="M 28 85 C 32 75, 48 70, 58 75 L 68 88 L 38 98 Z" fill="#451A03" stroke="#B45309" stroke-width="1"/>
+    <!-- Ebony Tuning Pegs (Clavijas) -->
+    <circle cx="38" cy="78" r="2.5" fill="#18181B"/>
+    <circle cx="48" cy="76" r="2.5" fill="#18181B"/>
+    <circle cx="58" cy="74" r="2.5" fill="#18181B"/>
+    <circle cx="44" cy="94" r="2.5" fill="#18181B"/>
+    <circle cx="54" cy="92" r="2.5" fill="#18181B"/>
+    <circle cx="64" cy="90" r="2.5" fill="#18181B"/>
+
+    <!-- Cedar Neck -->
+    <rect x="65" y="85" width="85" height="13" fill="#542B17" stroke="#9A3412" stroke-width="0.8" transform="rotate(-6 107 91)"/>
+    <line x1="82" y1="84" x2="81" y2="97" stroke="#E2E8F0" stroke-width="1"/>
+    <line x1="102" y1="82" x2="101" y2="95" stroke="#E2E8F0" stroke-width="1"/>
+    <line x1="122" y1="80" x2="121" y2="93" stroke="#E2E8F0" stroke-width="1"/>
+
+    <!-- Bright Spanish Cypress Flamenco Body -->
+    <g transform="translate(140, 22)">
+      <path d="M 25 72 C 15 45, 55 35, 75 48 C 95 60, 95 72, 85 82 C 110 95, 115 130, 85 145 C 55 160, 15 145, 18 115 C 20 95, 15 85, 25 72 Z" fill="url(#cypressTop)" stroke="#B45309" stroke-width="1.5"/>
+      <!-- Golpeador (Transparent/White Tap Plate Protection) -->
+      <path d="M 40 68 C 45 60, 75 60, 78 72 L 78 105 L 42 105 Z" fill="#FEF3C7" fill-opacity="0.35" stroke="#FDE68A" stroke-width="0.8"/>
+      <!-- Rosette & Soundhole -->
+      <circle cx="58" cy="85" r="17" fill="#1C1008" stroke="#EA580C" stroke-width="1.5"/>
+      <circle cx="58" cy="85" r="13" fill="#0A0604"/>
+      <!-- Low Profile Flamenco Bridge -->
+      <rect x="44" y="118" width="30" height="7" rx="1.5" fill="#2E1205" stroke="#FDE68A" stroke-width="0.5"/>
+    </g>
+
+    <!-- Snappy Nylon / Carbon Strings -->
+    <line x1="50" y1="88" x2="190" y2="142" stroke="#FFFFFF" stroke-width="0.9" opacity="0.9"/>
+    <line x1="52" y1="90" x2="192" y2="144" stroke="#FFFFFF" stroke-width="0.9" opacity="0.9"/>
+    <line x1="54" y1="92" x2="194" y2="146" stroke="#FFFFFF" stroke-width="0.9" opacity="0.9"/>
+    <line x1="56" y1="94" x2="196" y2="148" stroke="#FDE68A" stroke-width="1" opacity="0.95"/>
+    <line x1="58" y1="96" x2="198" y2="150" stroke="#FDE68A" stroke-width="1.1" opacity="0.95"/>
+    <line x1="60" y1="98" x2="200" y2="152" stroke="#FDE68A" stroke-width="1.2" opacity="0.95"/>
+  </g>
+  
+  <text x="20" y="186" fill="#FB923C" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">FLAMENCO CONCERT GUITAR</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">CYPRESS • GOLPEADOR</text>
+</svg>

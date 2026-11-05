@@ -1,73 +1,86 @@
 /**
  * Virtual Music Studio - Instrument Catalog Styles
+ * Studio Precision Theme: 24 Acoustic & Electronic Instruments
  */
 
 .instruments-view-layout {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
+/* Filter Bar & Search */
 .instruments-filter-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
-  background: var(--bg-card);
-  padding: 12px 18px;
+  background: var(--bg-panel);
+  padding: 10px 16px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-standard);
+  box-shadow: var(--shadow-sm);
 }
 
 .filter-pills-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .category-filter-btn {
-  background: var(--bg-dark);
-  color: var(--text-muted);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: var(--radius-full);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
 }
 
 .category-filter-btn:hover {
-  color: var(--text-main);
-  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  background: var(--bg-interactive);
+  border-color: var(--border-elevated);
 }
 
 .category-filter-btn.active {
-  background: var(--accent-purple);
-  color: #fff;
-  border-color: var(--accent-purple);
-  box-shadow: 0 0 12px var(--accent-purple-glow);
+  background: var(--color-violet);
+  color: #FFFFFF;
+  border-color: var(--color-violet-light);
+  box-shadow: 0 0 12px var(--color-violet-glow);
 }
 
 .search-box {
-  background: var(--bg-input);
+  background: var(--bg-interactive);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  padding: 6px 14px;
+  padding: 5px 14px;
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 240px;
+  transition: border-color var(--transition-fast);
+}
+
+.search-box:focus-within {
+  border-color: var(--color-violet);
+  box-shadow: 0 0 8px var(--color-violet-glow);
 }
 
 .search-box input {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--text-main);
-  font-size: 13px;
+  color: var(--text-primary);
+  font-size: 12px;
   width: 100%;
 }
 
@@ -75,32 +88,33 @@
 .instruments-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
 .instrument-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, #1D1D23 0%, #17171C 100%);
+  border: 1px solid var(--border-standard);
   border-radius: var(--radius-lg);
-  padding: 18px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 12px;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .instrument-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-purple);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-purple-glow);
+  transform: translateY(-3px);
+  border-color: var(--border-highlight);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 16px var(--color-violet-glow);
 }
 
 .instrument-card.selected {
-  border-color: var(--accent-purple);
-  box-shadow: 0 0 25px var(--accent-purple-glow);
-  background: linear-gradient(135deg, #242247 0%, #17162E 100%);
+  border-color: var(--color-violet);
+  box-shadow: 0 0 20px var(--color-violet-glow);
+  background: linear-gradient(180deg, #242232 0%, #1B1A24 100%);
 }
 
 .inst-card-top {
@@ -110,11 +124,13 @@
 }
 
 .inst-family-tag {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--accent-purple);
-  background: rgba(139, 92, 246, 0.12);
+  letter-spacing: 0.5px;
+  color: var(--color-violet-light);
+  background: rgba(139, 92, 246, 0.14);
+  border: 1px solid rgba(139, 92, 246, 0.25);
   padding: 2px 8px;
   border-radius: var(--radius-full);
 }
@@ -122,36 +138,66 @@
 .inst-fav-btn {
   background: transparent;
   border: none;
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 16px;
   cursor: pointer;
-  transition: color 0.15s ease;
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
-.inst-fav-btn.active, .inst-fav-btn:hover {
-  color: var(--accent-gold);
+.inst-fav-btn:hover {
+  transform: scale(1.15);
+  color: var(--color-amber);
+}
+
+.inst-fav-btn.active {
+  color: var(--color-amber);
+  filter: drop-shadow(0 0 6px var(--color-amber-glow));
 }
 
 .inst-illustration-box {
-  height: 110px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  background: #0C0C10;
   border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.inst-artwork-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.instrument-card:hover .inst-artwork-img {
+  transform: scale(1.06);
+}
+
+.inst-illustration-box .fallback-svg {
+  font-size: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .inst-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
-  margin-bottom: 4px;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  letter-spacing: -0.2px;
 }
 
 .inst-desc {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 11px;
+  color: var(--text-secondary);
   line-height: 1.4;
-  height: 38px;
+  height: 32px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

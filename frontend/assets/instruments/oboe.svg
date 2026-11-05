@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgOboe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14181E"/>
+      <stop offset="50%" stop-color="#19232B"/>
+      <stop offset="100%" stop-color="#0A0D12"/>
+    </linearGradient>
+    <radialGradient id="oboeSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="grenadillaOboe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#27272A"/>
+      <stop offset="50%" stop-color="#18181B"/>
+      <stop offset="100%" stop-color="#09090B"/>
+    </linearGradient>
+    <linearGradient id="silverOboe" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#CBD5E1"/>
+      <stop offset="50%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
+    <filter id="oboeShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgOboe)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#oboeSpot)"/>
+  
+  <g filter="url(#oboeShadow)">
+    <!-- Conical Bore Grenadilla Oboe with Double Reed (Angled diagonally) -->
+    <g transform="rotate(-15 160 100)">
+      <!-- Delicate Double Reed Cane & Brass Staple with Cork -->
+      <polygon points="40,99 52,98 52,102 40,101" fill="#FEF08A" stroke="#CA8A04" stroke-width="0.5"/>
+      <rect x="52" y="98" width="8" height="4" fill="#D97706"/> <!-- Cork / Thread Wrap -->
+      <line x1="60" y1="99" x2="65" y2="99" stroke="#E2E8F0" stroke-width="1.2"/> <!-- Brass Staple -->
+
+      <!-- Upper Joint with Conservatoire Plateau Keywork -->
+      <path d="M 65 97 L 135 96 L 135 104 L 65 103 Z" fill="url(#grenadillaOboe)"/>
+      <!-- French Silver Key Cups with Center Holes -->
+      <circle cx="82" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <circle cx="95" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <circle cx="108" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <circle cx="121" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <line x1="72" y1="95" x2="130" y2="95" stroke="url(#silverOboe)" stroke-width="1"/>
+
+      <!-- Center Joint Tenon Ring -->
+      <rect x="135" y="95" width="2.5" height="10" fill="url(#silverOboe)"/>
+
+      <!-- Lower Joint with Trill Keys & Spatula Clusters -->
+      <path d="M 137.5 96 L 215 95 L 215 105 L 137.5 104 Z" fill="url(#grenadillaOboe)"/>
+      <circle cx="152" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <circle cx="165" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <circle cx="178" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <circle cx="191" cy="100" r="2.5" fill="url(#silverOboe)" stroke="#334155" stroke-width="0.5"/>
+      <line x1="142" y1="95" x2="210" y2="95" stroke="url(#silverOboe)" stroke-width="1"/>
+
+      <!-- Bell Joint (Distinctive rounded bulbous flare with tone holes) -->
+      <path d="M 215 95 C 225 94, 240 92, 248 90 C 254 90, 255 110, 248 110 C 240 108, 225 106, 215 105 Z" fill="url(#grenadillaOboe)"/>
+      <circle cx="232" cy="100" r="2" fill="#09090B" stroke="url(#silverOboe)" stroke-width="0.8"/>
+    </g>
+  </g>
+  
+  <text x="20" y="186" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">CONCERT SYMPHONIC OBOE</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">DOUBLE REED • A440 TUNING</text>
+</svg>

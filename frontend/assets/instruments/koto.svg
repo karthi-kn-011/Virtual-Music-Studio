@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgKoto" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1E1714"/>
+      <stop offset="50%" stop-color="#2D211A"/>
+      <stop offset="100%" stop-color="#0E0A08"/>
+    </linearGradient>
+    <radialGradient id="kotoSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#F97316" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#C2410C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="paulowniaWood" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8B572A"/>
+      <stop offset="40%" stop-color="#B2743E"/>
+      <stop offset="80%" stop-color="#8B572A"/>
+      <stop offset="100%" stop-color="#5C3615"/>
+    </linearGradient>
+    <filter id="kotoShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgKoto)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#kotoSpot)"/>
+  
+  <g filter="url(#kotoShadow)">
+    <!-- 6-Foot Arched Paulownia (Kiri) Wood Soundboard -->
+    <path d="M 30 85 C 80 72, 240 72, 290 85 L 285 125 C 235 138, 85 138, 35 125 Z" fill="url(#paulowniaWood)" stroke="#F59E0B" stroke-width="1.2"/>
+    
+    <!-- Dragon Head (Ryuto) and Tail Details -->
+    <rect x="28" y="86" width="6" height="38" rx="2" fill="#3D1D09"/>
+    <rect x="286" y="86" width="6" height="38" rx="2" fill="#3D1D09"/>
+    
+    <!-- 13 Movable Bridges (Ji) made of Ivory/Hardwood arranged diagonally -->
+    <g fill="#FFFBEB" stroke="#92400E" stroke-width="0.5">
+      <!-- Inverted Y-shape movable bridges -->
+      <polygon points="65,92 68,92 70,98 63,98"/>
+      <polygon points="80,94 83,94 85,100 78,100"/>
+      <polygon points="95,96 98,96 100,102 93,102"/>
+      <polygon points="110,98 113,98 115,104 108,104"/>
+      <polygon points="125,100 128,100 130,106 123,106"/>
+      <polygon points="140,102 143,102 145,108 138,108"/>
+      <polygon points="155,104 158,104 160,110 153,110"/>
+      <polygon points="170,106 173,106 175,112 168,112"/>
+      <polygon points="185,108 188,108 190,114 183,114"/>
+      <polygon points="200,110 203,110 205,116 198,116"/>
+      <polygon points="215,112 218,112 220,118 213,118"/>
+      <polygon points="230,114 233,114 235,120 228,120"/>
+      <polygon points="245,116 248,116 250,122 243,122"/>
+    </g>
+
+    <!-- 13 Silk / Tetron Strings stretched horizontally across Ji -->
+    <g stroke="#FFFFFF" stroke-width="0.8" opacity="0.85">
+      <line x1="32" y1="89" x2="288" y2="89"/>
+      <line x1="32" y1="92" x2="288" y2="92"/>
+      <line x1="32" y1="95" x2="288" y2="95"/>
+      <line x1="32" y1="98" x2="288" y2="98"/>
+      <line x1="32" y1="101" x2="288" y2="101"/>
+      <line x1="32" y1="104" x2="288" y2="104"/>
+      <line x1="32" y1="107" x2="288" y2="107"/>
+      <line x1="32" y1="110" x2="288" y2="110"/>
+      <line x1="32" y1="113" x2="288" y2="113"/>
+      <line x1="32" y1="116" x2="288" y2="116"/>
+      <line x1="32" y1="119" x2="288" y2="119"/>
+      <line x1="32" y1="122" x2="288" y2="122"/>
+      <line x1="32" y1="125" x2="288" y2="125"/>
+    </g>
+    
+    <!-- Finger Plectra (Tsume) Pick Box -->
+    <rect x="255" y="60" width="16" height="12" rx="2" fill="#FEF3C7" stroke="#D97706" stroke-width="0.8"/>
+  </g>
+  
+  <text x="20" y="186" fill="#FDBA74" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">JAPANESE TRADITIONAL KOTO</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">13 STRINGS • JI BRIDGES</text>
+</svg>

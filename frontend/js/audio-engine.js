@@ -131,17 +131,16 @@ class AudioEngine {
       this.analyser.fftSize = 512;
       this.analyser.smoothingTimeConstant = 0.82;
 
-      if (window.studioEffects) {
-        this.effects = window.studioEffects;
-        this.effects.init(this.ctx, this.masterGain);
-        this.destinationNode = this.effects.inputNode;
-      } else {
-        this.destinationNode = this.masterGain;
-      }
-
+      this.destinationNode = this.masterGain;
       this.masterGain.connect(this.analyser);
       this.analyser.connect(this.ctx.destination);
       this.masterGain.connect(this.mediaStreamDestination);
+    }
+
+    // Always initialize studioEffects with active AudioContext
+    if (window.studioEffects) {
+      this.effects = window.studioEffects;
+      this.effects.init(this.ctx, this.destinationNode || this.ctx.destination);
     }
 
     this._startCpuMonitoring();
@@ -197,17 +196,20 @@ class AudioEngine {
     const state = this.ctx ? this.ctx.state : 'locked';
 
     if (statusPill && statusText) {
-      statusPill.className = `audio-status-pill ${state}`;
       if (state === 'running') {
-        statusText.textContent = `Audio: Active (${Math.round(this.ctx.sampleRate / 1000)}kHz)`;
-        statusPill.title = 'Web Audio Engine is running with full interactive polyphony';
+        statusPill.className = 'audio-status-pill running active unlocked';
+        statusText.textContent = 'Audio: Active';
+        statusPill.title = 'Web Audio Engine is running with full interactive polyphony (44.1kHz)';
       } else if (state === 'suspended') {
+        statusPill.className = 'audio-status-pill suspended locked';
         statusText.textContent = 'Audio: Suspended';
         statusPill.title = 'Click Enable Audio or interact with keyboard to resume';
       } else if (state === 'interrupted') {
+        statusPill.className = 'audio-status-pill interrupted locked';
         statusText.textContent = 'Audio: Interrupted';
         statusPill.title = 'Audio interrupted by system. Click to resume.';
       } else {
+        statusPill.className = 'audio-status-pill locked';
         statusText.textContent = 'Audio: Locked';
         statusPill.title = 'Browser autoplay policy requires a user gesture to enable sound';
       }
@@ -220,6 +222,38 @@ class AudioEngine {
         enableBtn.style.display = 'inline-flex';
         enableBtn.textContent = state === 'suspended' || state === 'interrupted' ? '▶ Resume Audio' : '🔊 Enable Audio';
       }
+    }
+  }
+
+  /**
+   * Universal note trigger method for external engines (Chord Generator, Arpeggiator, etc.)
+   */
+  triggerNoteOn(midiNote, velocity = 0.8, sourceId = 'engine') {
+    if (window.keyboardController) {
+      return window.keyboardController.triggerNoteOn(midiNote, velocity, sourceId);
+    }
+    if (window.soundFontManager) {
+      const inst = window.instrumentManager ? window.instrumentManager.currentInstrument : null;
+      if (inst) {
+        const voice = window.soundFontManager.playNote(inst, midiNote, velocity, this.destinationNode);
+        if (voice) {
+          this.activeVoices.set(`${sourceId}_${midiNote}`, voice);
+        }
+        return voice;
+      }
+    }
+    return null;
+  }
+
+  triggerNoteOff(midiNote, sourceId = 'engine') {
+    if (window.keyboardController) {
+      return window.keyboardController.triggerNoteOff(midiNote, sourceId);
+    }
+    const key = `${sourceId}_${midiNote}`;
+    const voice = this.activeVoices.get(key);
+    if (voice) {
+      try { voice.stop(); } catch (e) {}
+      this.activeVoices.delete(key);
     }
   }
 

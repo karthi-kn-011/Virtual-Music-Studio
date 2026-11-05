@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGlock" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="50%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="glockSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="steelBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#E2E8F0"/>
+      <stop offset="70%" stop-color="#94A3B8"/>
+      <stop offset="100%" stop-color="#64748B"/>
+    </linearGradient>
+    <filter id="glockShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgGlock)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#glockSpot)"/>
+  
+  <g filter="url(#glockShadow)">
+    <!-- Trapezoidal Solid Oak Flightcase / Resonator Frame -->
+    <polygon points="35,135 60,55 260,55 285,135" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+    <polygon points="40,132 63,58 257,58 280,132" fill="#0F172A"/>
+
+    <!-- Chromatic Upper Tone Bars (Accidentals) -->
+    <g transform="translate(20, 20)">
+      <rect x="75" y="45" width="13" height="34" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="94" y="45" width="13" height="32" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      
+      <rect x="130" y="45" width="13" height="30" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="148" y="45" width="13" height="28" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="166" y="45" width="13" height="26" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+
+      <rect x="202" y="45" width="13" height="24" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="220" y="45" width="13" height="22" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+    </g>
+
+    <!-- Diatonic Lower Tone Bars (Natural Notes C5 to C8) -->
+    <g transform="translate(15, 60)">
+      <rect x="45" y="35" width="14" height="42" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="63" y="35" width="14" height="40" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="81" y="35" width="14" height="38" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="99" y="35" width="14" height="36" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="117" y="35" width="14" height="34" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="135" y="35" width="14" height="32" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="153" y="35" width="14" height="30" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="171" y="35" width="14" height="28" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="189" y="35" width="14" height="26" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="207" y="35" width="14" height="24" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="225" y="35" width="14" height="22" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+      <rect x="243" y="35" width="14" height="20" rx="2" fill="url(#steelBar)" stroke="#CBD5E1" stroke-width="0.5"/>
+    </g>
+
+    <!-- Brass / Acrylic Mallets with Rattan Shafts -->
+    <line x1="110" y1="165" x2="155" y2="105" stroke="#FDE68A" stroke-width="2"/>
+    <circle cx="157" cy="103" r="5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1"/>
+    
+    <line x1="210" y1="165" x2="175" y2="105" stroke="#FDE68A" stroke-width="2"/>
+    <circle cx="173" cy="103" r="5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1"/>
+  </g>
+  
+  <text x="20" y="186" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">CONCERT GLOCKENSPIEL</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">STEEL BARS • CRYSTAL TIMBRE</text>
+</svg>
