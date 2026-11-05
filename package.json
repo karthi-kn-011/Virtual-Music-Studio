@@ -1,0 +1,24 @@
+{
+  "name": "virtual-music-studio",
+  "version": "1.0.0",
+  "description": "Professional Web Audio Virtual Music Studio DAW with QWERTY Keyboard Engine, 24 Instruments, Multi-track Arranger, and Interactive Learning",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "keywords": [
+    "virtual-instrument",
+    "daw",
+    "web-audio-api",
+    "piano",
+    "soundfont",
+    "music-studio",
+    "midi"
+  ],
+  "author": "Virtual Music Studio Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

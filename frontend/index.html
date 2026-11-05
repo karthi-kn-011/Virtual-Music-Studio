@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Music Studio | Your Instruments. Your Keyboard. Your Music.</title>
+  <meta name="description" content="Professional-grade browser digital audio workstation and virtual music studio. Play realistic instruments with your QWERTY keyboard, record performances, arrange tracks, and learn music.">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/studio.css">
+  <link rel="stylesheet" href="css/keyboard.css">
+  <link rel="stylesheet" href="css/instruments.css">
+  <link rel="stylesheet" href="css/timeline.css">
+  <link rel="stylesheet" href="css/mixer.css">
+  <link rel="stylesheet" href="css/drum-machine.css">
+  <link rel="stylesheet" href="css/music-lab.css">
+  <link rel="stylesheet" href="css/genre.css">
+  <link rel="stylesheet" href="css/automation.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Top Studio Header & Master Toolbar -->
+  <header class="studio-header">
+    <div class="brand-section">
+      <div class="brand-logo">♫</div>
+      <div class="brand-text">
+        <h1>VIRTUAL MUSIC STUDIO</h1>
+        <div class="tagline">Your Instruments. Your Keyboard. Your Music.</div>
+      </div>
+    </div>
+
+    <!-- Master Transport & Actions -->
+    <div class="top-toolbar">
+      <!-- Centralized Web Audio Unlock & Status Indicator -->
+      <button class="btn btn-sm btn-primary pulse-btn" id="btn-enable-audio" title="Click to unlock Web Audio API">🔊 Enable Audio</button>
+      <div class="audio-status-pill locked" id="audio-engine-status" title="Audio Engine Status">
+        <span class="status-indicator-dot"></span>
+        <span id="audio-status-text">Audio: Locked</span>
+      </div>
+
+      <div class="project-name-box" title="Rename Project">
+        <label>📁</label>
+        <input type="text" id="project-name-input" value="Untitled Symphony" spellcheck="false" />
+      </div>
+
+      <button class="btn btn-sm btn-ghost" id="btn-new-project" title="New Blank Project">＋ New</button>
+      <button class="btn btn-sm btn-secondary" id="btn-save-project" title="Save to IndexedDB">💾 Save</button>
+
+      <!-- Transport Controls -->
+      <div class="transport-bar">
+        <button class="btn-transport" id="transport-record-btn" title="Record Performance">● Rec</button>
+        <button class="btn-transport" id="transport-play-btn" title="Play Multi-Track">▶ Play</button>
+        <button class="btn-transport" id="transport-stop-btn" title="Stop & Rewind">■ Stop</button>
+        <div class="timecode-display" id="current-time-code">01.1 | 00:00.0</div>
+      </div>
+
+      <div class="bpm-ctrl" title="Tempo in Beats Per Minute">
+        <label>BPM</label>
+        <input type="number" id="studio-bpm-input" min="40" max="260" value="120" />
+      </div>
+
+      <button class="btn btn-sm btn-ghost" id="metronome-btn" title="Toggle Click Track Metronome">⏰ Metronome</button>
+
+      <!-- Master Volume -->
+      <div class="master-volume-box" title="Master Studio Volume">
+        <span>VOL</span>
+        <input type="range" id="master-volume-slider" min="0" max="1" step="0.02" value="0.85" />
+        <span id="master-volume-value">85%</span>
+      </div>
+
+      <!-- Export Actions -->
+      <button class="btn btn-sm btn-primary" id="btn-export-wav" title="Export High-Res 16-bit PCM WAV">⬇ Export WAV</button>
+      <button class="btn btn-sm btn-ghost" id="btn-export-midi" title="Export Standard MIDI File">⬇ MIDI</button>
+      <label class="btn btn-sm btn-ghost" style="cursor: pointer;" title="Import Standard MIDI File (.mid)">⬆ Import MIDI <input type="file" id="top-import-midi" accept=".mid,.midi" style="display: none;" onchange="if(this.files[0]) window.exportManager.importMidiFile(this.files[0])" /></label>
+
+      <!-- Help & Settings -->
+      <button class="btn btn-sm btn-ghost btn-icon" data-open-modal="shortcuts-modal" title="Keyboard Shortcuts Reference">⌨</button>
+      <button class="btn btn-sm btn-ghost btn-icon" data-open-modal="help-modal" title="Attribution & Guide">?</button>
+      <button class="btn btn-sm btn-ghost btn-icon" id="btn-fullscreen-toggle" title="Toggle Fullscreen">⛶</button>
+    </div>
+  </header>
+
+  <!-- Main Navigation Tabs -->
+  <nav class="main-nav" id="main-navigation">
+    <a href="#studio" id="nav-studio" class="nav-link active" data-view="studio" onclick="navigateTo('studio'); return false;">🎹 Studio</a>
+    <a href="#instruments" id="nav-instruments" class="nav-link" data-view="instruments" onclick="navigateTo('instruments'); return false;">🎻 Instruments (24)</a>
+    <a href="#arranger" id="nav-arranger" class="nav-link" data-view="arranger" onclick="navigateTo('arranger'); return false;">🎚 Multi-Track Arranger</a>
+    <a href="#mixer" id="nav-mixer" class="nav-link" data-view="mixer" onclick="navigateTo('mixer'); return false;">🎛 Pro Mixer</a>
+    <a href="#drum-machine" id="nav-drum-machine" class="nav-link" data-view="drum-machine" onclick="navigateTo('drum-machine'); return false;">🥁 Drum Machine</a>
+    <a href="#chords" id="nav-chords" class="nav-link" data-view="chords" onclick="navigateTo('chords'); return false;">🎼 Chords</a>
+    <a href="#arpeggiator" id="nav-arpeggiator" class="nav-link" data-view="arpeggiator" onclick="navigateTo('arpeggiator'); return false;">⚡ Arpeggiator</a>
+    <a href="#mastering" id="nav-mastering" class="nav-link" data-view="mastering" onclick="navigateTo('mastering'); return false;">🎚 Mastering</a>
+    <a href="#music-lab" id="nav-music-lab" class="nav-link" data-view="music-lab" onclick="navigateTo('music-lab'); return false;">🔬 Music Lab & Theory</a>
+    <a href="#genres" id="nav-genres" class="nav-link" data-view="genres" onclick="navigateTo('genres'); return false;">🌍 Genre Explorer</a>
+    <a href="#tutorials" id="nav-tutorials" class="nav-link" data-view="tutorials" onclick="navigateTo('tutorials'); return false;">🎓 Tutorials</a>
+    <a href="#projects" id="nav-projects" class="nav-link" data-view="projects" onclick="navigateTo('projects'); return false;">📁 My Projects</a>
+    <a href="#effects" id="nav-effects" class="nav-link" data-view="effects" onclick="navigateTo('effects'); return false;">🎛 Master Effects Rack</a>
+
+    <!-- Status & Loading Indicators -->
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 12px; padding-right: 8px;">
+      <div class="instrument-loading-badge" id="instrument-loading-badge">
+        <span class="ready-dot"></span> Ready: Classical Piano
+      </div>
+      <div class="status-badge idle" id="record-status-indicator">READY</div>
+    </div>
+  </nav>
+
+  <!-- Views Container -->
+  <main class="views-container">
+
+    <!-- ==================== VIEW 1: STUDIO PERFORMANCE ==================== -->
+    <section class="view-panel active" id="view-studio">
+      <div class="studio-main-layout">
+        
+        <!-- Hero Active Instrument Header -->
+        <div class="current-instrument-hero">
+          <div class="hero-left-info">
+            <div class="hero-instrument-icon" id="current-instrument-icon">
+              <!-- Rendered via JS -->
+            </div>
+            <div class="hero-text-details">
+              <span class="hero-family-tag" id="current-instrument-family">Piano Family</span>
+              <h2 id="current-instrument-name">Classical Piano</h2>
+              <p id="current-instrument-desc">Rich, dynamic concert piano with natural acoustic resonance and nuanced harmonic decay.</p>
+            </div>
+          </div>
+
+          <div class="hero-right-visualizer">
+            <div class="visualizer-box">
+              <canvas id="master-analyser-canvas" width="220" height="64"></canvas>
+            </div>
+            <button class="visualizer-toggle-btn" id="visualizer-toggle-mode">Switch Visualizer Mode</button>
+          </div>
+        </div>
+
+        <!-- Main Keyboard Performance Area -->
+        <div class="performance-area">
+          <div class="keyboard-controls-bar">
+            <!-- Octave Switcher -->
+            <div class="octave-selector-group">
+              <span>OCTAVE (Z / X):</span>
+              <button class="btn btn-sm btn-ghost" id="btn-octave-down">◀ Lower</button>
+              <div class="octave-display-pill" id="current-octave-display">C4 - C5</div>
+              <button class="btn btn-sm btn-ghost" id="btn-octave-up">Higher ▶</button>
+            </div>
+
+            <!-- Velocity Sensitivity Slider -->
+            <div class="velocity-selector-group">
+              <label>VELOCITY (C / V):</label>
+              <input type="range" id="velocity-slider" min="10" max="100" value="85" />
+              <span id="velocity-value-text">85%</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="keyboard-action-buttons">
+              <button class="btn btn-sm btn-ghost" id="sustain-pedal-btn" title="Hold Spacebar or Click to Sustain">Pedal: Sustain [Space]</button>
+              <button class="btn btn-sm btn-ghost" id="panic-btn" title="Silences all voices immediately">Panic [Esc]</button>
+            </div>
+          </div>
+
+          <!-- 88-Key Acoustic Virtual Keyboard -->
+          <div class="piano-keyboard-scroll-container">
+            <div id="studio-piano-keys">
+              <!-- Dynamically generated 88-keys -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Quick Effects Rack -->
+        <div class="quick-effects-rack">
+          <div class="quick-fx-module">
+            <span class="fx-title">Studio Reverb</span>
+            <div class="fx-knob-container">
+              <input type="range" id="fx-reverb-wet" min="0" max="0.9" step="0.05" value="0.28" />
+              <span>Mix</span>
+            </div>
+          </div>
+
+          <div class="quick-fx-module">
+            <span class="fx-title">Stereo Delay</span>
+            <div class="fx-knob-container">
+              <input type="range" id="fx-delay-wet" min="0" max="0.8" step="0.05" value="0.18" />
+              <span>Mix</span>
+            </div>
+          </div>
+
+          <div class="quick-fx-module">
+            <span class="fx-title">Lush Chorus</span>
+            <div class="fx-knob-container">
+              <input type="range" id="fx-chorus-wet" min="0" max="0.8" step="0.05" value="0.0" />
+              <span>Depth</span>
+            </div>
+          </div>
+
+          <div class="quick-fx-module">
+            <span class="fx-title">EQ Bass</span>
+            <div class="fx-knob-container">
+              <input type="range" id="fx-eq-low" min="-12" max="12" step="1" value="0" />
+              <span>±12 dB</span>
+            </div>
+          </div>
+
+          <div class="quick-fx-module">
+            <span class="fx-title">EQ Treble</span>
+            <div class="fx-knob-container">
+              <input type="range" id="fx-eq-high" min="-12" max="12" step="1" value="0" />
+              <span>±12 dB</span>
+            </div>
+          </div>
+
+          <div class="quick-fx-module">
+            <span class="fx-title">LP Filter</span>
+            <div class="fx-knob-container">
+              <input type="range" id="fx-filter-lp" min="500" max="20000" step="500" value="20000" />
+              <span>Cutoff</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: 24 INSTRUMENTS CATALOG ==================== -->
+    <section class="view-panel" id="view-instruments">
+      <div class="instruments-view-layout">
+        <div class="instruments-filter-bar">
+          <div class="filter-pills-group">
+            <button class="category-filter-btn active" data-category="all">All 24 Instruments</button>
+            <button class="category-filter-btn" data-category="piano">Piano Family (6)</button>
+            <button class="category-filter-btn" data-category="keyboards">Other Keyboards (2)</button>
+            <button class="category-filter-btn" data-category="strings">String Instruments (8)</button>
+            <button class="category-filter-btn" data-category="mallets">Percussion & Mallets (3)</button>
+            <button class="category-filter-btn" data-category="winds">Wind & Brass (5)</button>
+            <button class="category-filter-btn" data-category="favorites">★ Favorites</button>
+            <button class="category-filter-btn" data-category="recents">⏱ Recently Used</button>
+          </div>
+
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="instrument-search-input" placeholder="Search instruments or timbre..." />
+          </div>
+        </div>
+
+        <div class="instruments-grid" id="instruments-grid">
+          <!-- Dynamically populated 24 instruments -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: MULTI-TRACK ARRANGER ==================== -->
+    <section class="view-panel" id="view-arranger">
+      <div class="arranger-view-layout">
+        <div class="arranger-toolbar">
+          <div class="arranger-controls-left">
+            <button class="btn btn-sm btn-primary" onclick="window.trackManager.createTrack('classical_piano')">＋ Add Track</button>
+            <label class="btn btn-sm btn-secondary" style="cursor: pointer;" title="Import audio file (WAV, MP3, OGG) as an audio clip">
+              ＋ Add Audio Clip
+              <input type="file" id="arranger-import-audio" accept="audio/*" style="display: none;" onchange="if(this.files[0] && window.clipManager) window.clipManager.importAudioFile(this.files[0], window.trackManager.selectedTrackId)" />
+            </label>
+            <button class="btn btn-sm btn-ghost" id="btn-toggle-automation" onclick="window.automationEngine && window.automationEngine.toggleView()" title="Toggle Track & Master Automation Lanes">📈 Automation</button>
+            <button class="btn btn-sm btn-ghost" onclick="window.trackManager.seekTo(0)">⏮ Rewind to Start</button>
+            <label class="btn btn-sm btn-ghost" style="cursor: pointer;" title="Import Standard MIDI File (.mid)">
+              ⬆ Import MIDI
+              <input type="file" id="arranger-import-midi" accept=".mid,.midi" style="display: none;" onchange="if(this.files[0]) window.exportManager.importMidiFile(this.files[0])" />
+            </label>
+            <button class="btn btn-sm btn-ghost" onclick="window.exportManager.exportProjectAsMidi()" title="Export all tracks as Standard MIDI File">⬇ Export MIDI</button>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Click any lane to position playhead • Click 🎹 or double-click any note to edit in Piano Roll
+          </div>
+        </div>
+
+        <!-- Module F: Song Arrangement Workspace (Sections & Markers) -->
+        <div id="arrangement-workspace-bar"></div>
+
+        <!-- Arranger Timeline -->
+        <div class="arranger-workspace">
+          <div class="timeline-ruler">
+            <div class="ruler-header-spacer">TRACKS / ROUTING</div>
+            <div class="ruler-ticks-area">
+              <div class="timeline-playhead" id="timeline-playhead"></div>
+            </div>
+          </div>
+
+          <div id="arranger-tracks-container">
+            <!-- Dynamically populated track rows -->
+          </div>
+
+          <!-- Module A: Automation Lanes Mount -->
+          <div id="automation-lanes-mount" class="automation-lanes-container"></div>
+        </div>
+
+        <!-- Recording Takes History -->
+        <div style="margin-top: 10px;">
+          <h3 style="font-size: 14px; margin-bottom: 8px;">Recorded Takes History</h3>
+          <div id="recording-takes-list">
+            <!-- Takes populated here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 4: DRUM MACHINE ==================== -->
+    <section class="view-panel" id="view-drum-machine">
+      <div class="drum-machine-layout">
+        <div class="drum-toolbar">
+          <div class="drum-presets-group">
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-right: 6px;">BEAT PRESETS:</span>
+            <button class="btn btn-sm btn-ghost" onclick="window.drumMachine.loadPreset('rock')">Rock</button>
+            <button class="btn btn-sm btn-ghost" onclick="window.drumMachine.loadPreset('hiphop')">Hip-Hop</button>
+            <button class="btn btn-sm btn-ghost" onclick="window.drumMachine.loadPreset('house')">House / EDM</button>
+            <button class="btn btn-sm btn-ghost" onclick="window.drumMachine.loadPreset('jazz')">Jazz</button>
+            <button class="btn btn-sm btn-ghost" onclick="window.drumMachine.clear()">Clear</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="fader-group" style="width: 140px;">
+              <label>SWING</label>
+              <input type="range" min="0" max="50" step="5" value="0" oninput="window.drumMachine.swing = this.value / 100" />
+            </div>
+            <button class="btn btn-primary" id="drum-play-btn" onclick="window.drumMachine.togglePlay()">▶ Play Beat</button>
+          </div>
+        </div>
+
+        <div id="drum-machine-container">
+          <!-- 16-Step grid populated by drum-machine.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 5: MUSIC LAB & THEORY ==================== -->
+    <section class="view-panel" id="view-music-lab">
+      <div class="music-lab-layout">
+        <!-- Circle of Fifths Panel -->
+        <div class="lab-panel">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h3>Circle of Fifths</h3>
+            <span class="badge" id="active-scale-info">C Major</span>
+          </div>
+          <div id="circle-of-fifths-container"></div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            Click any key on the circle to transpose the studio, highlight scales, and update chord progressions.
+          </div>
+        </div>
+
+        <!-- Chords & Progressions -->
+        <div class="lab-panel" style="flex: 1;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <h3>Chord Progression Generator</h3>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <select id="theory-root-select" class="btn btn-sm btn-ghost" onchange="window.musicTheoryLab.currentRoot = this.value; window.musicTheoryLab.highlightScaleOnKeyboard(); window.musicTheoryLab.renderChordsList();">
+                <option value="C">Key: C</option>
+                <option value="C#">Key: C# / Db</option>
+                <option value="D">Key: D</option>
+                <option value="D#">Key: D# / Eb</option>
+                <option value="E">Key: E</option>
+                <option value="F">Key: F</option>
+                <option value="F#">Key: F# / Gb</option>
+                <option value="G">Key: G</option>
+                <option value="G#">Key: G# / Ab</option>
+                <option value="A">Key: A</option>
+                <option value="A#">Key: A# / Bb</option>
+                <option value="B">Key: B</option>
+              </select>
+
+              <select id="theory-scale-select" class="btn btn-sm btn-ghost" onchange="window.musicTheoryLab.currentScale = this.value; window.musicTheoryLab.highlightScaleOnKeyboard();">
+                <option value="major">Scale: Major (Ionian)</option>
+                <option value="minor">Scale: Natural Minor</option>
+                <option value="harmonic_minor">Scale: Harmonic Minor</option>
+                <option value="pentatonic_major">Scale: Pentatonic Major</option>
+                <option value="pentatonic_minor">Scale: Pentatonic Minor</option>
+                <option value="blues">Scale: Blues</option>
+                <option value="dorian">Mode: Dorian</option>
+                <option value="mixolydian">Mode: Mixolydian</option>
+                <option value="spanish_gypsy">Scale: Flamenco / Spanish</option>
+                <option value="raga_bhairav">Indian Raga: Bhairav</option>
+                <option value="raga_yaman">Indian Raga: Yaman</option>
+                <option value="japanese_in">Japanese: Insen Scale</option>
+              </select>
+            </div>
+          </div>
+
+          <h4 style="font-size: 13px; margin-top: 12px; color: var(--text-dim);">Popular Chord Progressions</h4>
+          <div class="progressions-list" id="progressions-list"></div>
+
+          <h4 style="font-size: 13px; margin-top: 16px; color: var(--text-dim);">Diatonic Chords In Key</h4>
+          <div class="chords-grid" id="chords-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 6: GENRE EXPLORER ==================== -->
+    <section class="view-panel" id="view-genres">
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div id="genre-detail-panel"></div>
+        <div>
+          <h3 style="font-size: 16px; margin-bottom: 12px;">Explore 16 Global Musical Genres</h3>
+          <div id="genres-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 7: INTERACTIVE TUTORIALS ==================== -->
+    <section class="view-panel" id="view-tutorials">
+      <div id="tutorials-container">
+        <!-- Rendered via tutorial-manager.js -->
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 8: MY PROJECTS ==================== -->
+    <section class="view-panel" id="view-projects">
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- Templates -->
+        <div class="lab-panel">
+          <h3>Starter Project Templates</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 8px;">
+            <button class="btn btn-secondary" onclick="window.projectManager.loadTemplate('piano_solo')">🎹 Classical Piano Solo</button>
+            <button class="btn btn-secondary" onclick="window.projectManager.loadTemplate('jazz_quartet')">🎷 Jazz Lounge Quartet</button>
+            <button class="btn btn-secondary" onclick="window.projectManager.loadTemplate('cinematic_epic')">🎻 Epic Cinematic Soundtrack</button>
+            <button class="btn btn-secondary" onclick="window.projectManager.loadTemplate('oriental_fusion')">🪕 Indo-Arabic Silk Road</button>
+          </div>
+        </div>
+
+        <!-- Saved Projects List -->
+        <div class="lab-panel">
+          <h3>Saved Projects in Browser Storage</h3>
+          <div id="projects-saved-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+            <!-- Populated via project-manager.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 9: MASTER EFFECTS RACK ==================== -->
+    <section class="view-panel" id="view-effects">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+        <div class="lab-panel">
+          <h3>3-Band Parametric Equalizer</h3>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px;">
+            <div class="fader-group">
+              <label>LOW (250Hz)</label>
+              <input type="range" id="fx-eq-low" min="-12" max="12" step="1" value="0" />
+            </div>
+            <div class="fader-group">
+              <label>MID (1200Hz)</label>
+              <input type="range" id="fx-eq-mid" min="-12" max="12" step="1" value="0" />
+            </div>
+            <div class="fader-group">
+              <label>HIGH (4500Hz)</label>
+              <input type="range" id="fx-eq-high" min="-12" max="12" step="1" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-panel">
+          <h3>Convolution Reverb & Stereo Delay</h3>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px;">
+            <div class="fader-group">
+              <label>REVERB TIME</label>
+              <input type="range" id="fx-reverb-time" min="0.5" max="6.0" step="0.2" value="2.2" />
+            </div>
+            <div class="fader-group">
+              <label>DELAY TIME</label>
+              <input type="range" id="fx-delay-time" min="0.1" max="1.0" step="0.05" value="0.35" />
+            </div>
+            <div class="fader-group">
+              <label>DELAY FEEDBACK</label>
+              <input type="range" id="fx-delay-feedback" min="0" max="0.85" step="0.05" value="0.32" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 10: DEDICATED PROFESSIONAL DAW MIXER ==================== -->
+    <section class="view-panel" id="view-mixer">
+      <div class="mixer-view-layout">
+        
+        <!-- Mixer Top Control Bar -->
+        <div class="mixer-top-bar">
+          <div class="mixer-title-group">
+            <h2>Multi-Track Mixing Console</h2>
+            <span class="mixer-subtitle" id="mixer-tracks-count">3 Channels • Master Limiter Active</span>
+          </div>
+
+          <!-- Mixer Presets Selector & Custom Save -->
+          <div class="mixer-presets-group">
+            <label>PRESET:</label>
+            <select id="mixer-preset-select" class="roll-select" title="Load Studio Mixing Preset">
+              <option value="pop" selected>Pop Modern Polish</option>
+              <option value="classical">Classical Acoustic Stage</option>
+              <option value="jazz">Warm Jazz Club</option>
+              <option value="rock">Punchy Rock Studio</option>
+              <option value="electronic">Electronic EDM Pumping</option>
+              <option value="hiphop">Heavy Hip-Hop 808</option>
+              <option value="indian">Indian Classical Nuance</option>
+              <option value="ambient">Deep Ambient Space</option>
+              <option value="cinematic">Cinematic Orchestral Hall</option>
+            </select>
+            <button class="btn btn-sm btn-ghost" id="mixer-save-preset-btn" title="Save current console balance as custom preset">💾 Save Preset</button>
+            <button class="btn btn-sm btn-ghost" id="mixer-reset-btn" title="Reset all faders and EQs to flat">↺ Reset Flat</button>
+          </div>
+
+          <!-- Channel Inspector Toggle (EQ / Dynamics Curve) -->
+          <div class="mixer-inspector-toggle">
+            <button class="btn btn-sm btn-primary active" id="btn-toggle-inspector">🔍 Channel DSP Inspector</button>
+          </div>
+        </div>
+
+        <!-- Upper Module: Selected Channel DSP Inspector (Real-time EQ curve canvas & Dynamics compressor) -->
+        <div class="mixer-dsp-inspector" id="mixer-dsp-inspector">
+          <!-- Inspector Header -->
+          <div class="inspector-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="inspector-badge" id="inspector-track-color"></div>
+              <h3 id="inspector-track-title">Channel DSP Inspector</h3>
+            </div>
+            <span style="font-size: 11px; color: var(--text-dim);">Real-time Parametric Frequency Response & Dynamics Compressor</span>
+          </div>
+
+          <div class="inspector-body">
+            <!-- 1. Real-time Parametric EQ with Canvas Response Curve -->
+            <div class="inspector-module eq-module">
+              <div class="module-title">
+                <span>3-Band Parametric Equalizer</span>
+              </div>
+
+              <div class="eq-visualizer-container">
+                <canvas id="inspector-eq-canvas" width="360" height="110"></canvas>
+                <div class="eq-canvas-grid-labels">
+                  <span>100Hz</span>
+                  <span>500Hz</span>
+                  <span>1kHz</span>
+                  <span>5kHz</span>
+                  <span>10kHz</span>
+                </div>
+              </div>
+
+              <div class="eq-knobs-row">
+                <div class="dsp-knob-group">
+                  <label>LOW (120Hz)</label>
+                  <input type="range" id="ins-eq-low-gain" min="-15" max="15" step="0.5" value="0" />
+                  <span id="ins-eq-low-val">0 dB</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>MID FREQ</label>
+                  <input type="range" id="ins-eq-mid-freq" min="200" max="8000" step="50" value="1200" />
+                  <span id="ins-eq-mid-freq-val">1.2 kHz</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>MID GAIN</label>
+                  <input type="range" id="ins-eq-mid-gain" min="-15" max="15" step="0.5" value="0" />
+                  <span id="ins-eq-mid-val">0 dB</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>MID Q</label>
+                  <input type="range" id="ins-eq-mid-q" min="0.3" max="8.0" step="0.1" value="1.0" />
+                  <span id="ins-eq-mid-q-val">1.0</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>HIGH (6kHz)</label>
+                  <input type="range" id="ins-eq-high-gain" min="-15" max="15" step="0.5" value="0" />
+                  <span id="ins-eq-high-val">0 dB</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Dynamics Compressor with Gain Reduction Meter -->
+            <div class="inspector-module comp-module">
+              <div class="module-title">
+                <span>Dynamics Compressor</span>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; cursor: pointer;">
+                  <input type="checkbox" id="ins-comp-enable" /> Enable
+                </label>
+              </div>
+
+              <div class="comp-knobs-grid">
+                <div class="dsp-knob-group">
+                  <label>THRESH</label>
+                  <input type="range" id="ins-comp-thresh" min="-60" max="0" step="1" value="-18" />
+                  <span id="ins-comp-thresh-val">-18 dB</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>RATIO</label>
+                  <input type="range" id="ins-comp-ratio" min="1" max="20" step="0.5" value="4" />
+                  <span id="ins-comp-ratio-val">4.0:1</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>ATTACK</label>
+                  <input type="range" id="ins-comp-attack" min="0.001" max="0.5" step="0.005" value="0.01" />
+                  <span id="ins-comp-attack-val">10 ms</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>RELEASE</label>
+                  <input type="range" id="ins-comp-release" min="0.01" max="1.0" step="0.02" value="0.25" />
+                  <span id="ins-comp-release-val">250 ms</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>KNEE</label>
+                  <input type="range" id="ins-comp-knee" min="0" max="40" step="1" value="6" />
+                  <span id="ins-comp-knee-val">6 dB</span>
+                </div>
+
+                <div class="dsp-knob-group">
+                  <label>MAKEUP</label>
+                  <input type="range" id="ins-comp-makeup" min="0" max="18" step="0.5" value="0" />
+                  <span id="ins-comp-makeup-val">+0 dB</span>
+                </div>
+              </div>
+
+              <!-- Gain Reduction Indicator -->
+              <div class="comp-reduction-meter-box">
+                <span style="font-size: 9px; color: var(--text-dim); font-weight: 700;">GAIN REDUCTION:</span>
+                <div class="reduction-meter-bar-track">
+                  <div class="reduction-meter-fill" id="ins-comp-gr-fill"></div>
+                </div>
+                <span id="ins-comp-gr-text" style="font-size: 9px; font-family: var(--font-mono, monospace); color: #EF4444;">0 dB</span>
+              </div>
+            </div>
+
+            <!-- 3. Master Aux Effects Master Settings (Reverb, Delay, Chorus global configuration) -->
+            <div class="inspector-module aux-module">
+              <div class="module-title">
+                <span>Master Aux Return Processors</span>
+              </div>
+
+              <div class="aux-processors-tabs">
+                <!-- Reverb Settings -->
+                <div class="aux-tab-panel">
+                  <div style="font-weight: 700; font-size: 11px; margin-bottom: 4px; color: #8B5CF6;">Convolution Reverb:</div>
+                  <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px;">
+                    <select id="aux-reverb-type" class="roll-select" style="font-size: 10px;">
+                      <option value="hall" selected>Concert Hall (3.0s)</option>
+                      <option value="room">Acoustic Room (1.2s)</option>
+                      <option value="plate">Vintage Plate (2.0s)</option>
+                    </select>
+                  </div>
+                  <div class="dsp-knob-group">
+                    <label>PRE-DELAY</label>
+                    <input type="range" id="aux-reverb-predelay" min="0" max="100" step="5" value="20" />
+                    <span id="aux-reverb-predelay-val">20 ms</span>
+                  </div>
+                </div>
+
+                <!-- Delay Settings -->
+                <div class="aux-tab-panel">
+                  <div style="font-weight: 700; font-size: 11px; margin-bottom: 4px; color: #06B6D4;">Stereo Delay:</div>
+                  <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px;">
+                    <select id="aux-delay-sync" class="roll-select" style="font-size: 10px;">
+                      <option value="1/4">1/4 Beat</option>
+                      <option value="1/8" selected>1/8 Beat</option>
+                      <option value="1/8d">1/8 Dotted</option>
+                      <option value="1/16">1/16 Beat</option>
+                    </select>
+                  </div>
+                  <div class="dsp-knob-group">
+                    <label>FEEDBACK</label>
+                    <input type="range" id="aux-delay-feedback" min="0" max="0.85" step="0.05" value="0.32" />
+                    <span id="aux-delay-feedback-val">32%</span>
+                  </div>
+                </div>
+
+                <!-- Chorus Settings -->
+                <div class="aux-tab-panel">
+                  <div style="font-weight: 700; font-size: 11px; margin-bottom: 4px; color: #10B981;">Lush Chorus:</div>
+                  <div style="display: flex; gap: 8px;">
+                    <div class="dsp-knob-group">
+                      <label>RATE</label>
+                      <input type="range" id="aux-chorus-rate" min="0.1" max="6.0" step="0.1" value="1.5" />
+                      <span id="aux-chorus-rate-val">1.5 Hz</span>
+                    </div>
+                    <div class="dsp-knob-group">
+                      <label>DEPTH</label>
+                      <input type="range" id="aux-chorus-depth" min="0.0005" max="0.005" step="0.0005" value="0.002" />
+                      <span id="aux-chorus-depth-val">2.0 ms</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Lower Module: Mixer Console Fader Strips Container -->
+        <div class="mixer-console-scroll">
+          <div class="mixer-channel-strips" id="mixer-channel-strips">
+            <!-- Dynamically populated track channel strips -->
+          </div>
+
+          <!-- Master Channel Strip (Fixed on the right side) -->
+          <div class="mixer-channel-strip master-channel" id="mixer-master-channel">
+            <div class="ch-header">
+              <span class="ch-badge" style="background: #EF4444;"></span>
+              <div class="ch-title-wrap">
+                <span class="ch-name">MASTER</span>
+                <span class="ch-inst">Bus Output</span>
+              </div>
+            </div>
+
+            <!-- Master Spectrum Analyzer Canvas -->
+            <div class="master-spectrum-box">
+              <canvas id="mixer-master-spectrum" width="130" height="60"></canvas>
+            </div>
+
+            <!-- Master Limiter Status Indicator -->
+            <div class="master-limiter-badge active" id="master-limiter-badge" title="Master Brickwall Limiter Active (Prevents Clipping)">
+              LIMITER ON
+            </div>
+
+            <!-- Master Stereo Meters (L & R) -->
+            <div class="master-meters-container">
+              <div class="meter-col">
+                <div class="meter-track" id="master-meter-l-track">
+                  <div class="meter-bar" id="master-meter-l"></div>
+                </div>
+                <span class="meter-label">L</span>
+              </div>
+              <div class="meter-col">
+                <div class="meter-track" id="master-meter-r-track">
+                  <div class="meter-bar" id="master-meter-r"></div>
+                </div>
+                <span class="meter-label">R</span>
+              </div>
+              <div class="meter-peak-box">
+                <span id="master-peak-db">-inf dB</span>
+                <div class="clip-led" id="master-clip-led" title="Master Peak Clip Indicator (Click to Reset)">CLIP</div>
+              </div>
+            </div>
+
+            <!-- Master Volume Fader -->
+            <div class="fader-track-container">
+              <span class="fader-db-display" id="master-fader-db">0.0 dB</span>
+              <input type="range" class="vertical-fader master-fader" id="master-volume-fader" min="0" max="1.25" step="0.01" value="0.85" />
+            </div>
+
+            <!-- Master Mute -->
+            <div class="ch-button-row">
+              <button class="ch-btn btn-mute" id="master-mute-btn" title="Mute Master Output">M</button>
+            </div>
+
+            <div class="ch-footer">
+              <span style="font-size: 8px; color: var(--text-dim); font-family: monospace;">OUT 1-2</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 11: CHORD PROGRESSION GENERATOR ==================== -->
+    <section class="view-panel" id="view-chords">
+      <div id="chord-generator-mount"></div>
+    </section>
+
+    <!-- ==================== VIEW 12: PRO ARPEGGIATOR & HUMANIZER ==================== -->
+    <section class="view-panel" id="view-arpeggiator">
+      <div id="arpeggiator-mount"></div>
+    </section>
+
+    <!-- ==================== VIEW 13: MASTERING & LOUDNESS SUITE ==================== -->
+    <section class="view-panel" id="view-mastering">
+      <div id="mastering-mount"></div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Piano Roll Modal -->
+  <div class="modal-container" id="piano-roll-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="piano-roll-track-title">Piano Roll Note Editor</h2>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" id="piano-roll-quantize-btn">Quantize to 1/16</button>
+          <button class="btn btn-sm btn-ghost" id="piano-roll-clear-btn">Clear Notes</button>
+          <button class="modal-close-btn" id="close-piano-roll-btn">✕</button>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted);">
+        Click any cell on the grid to add a note • Double-click a note to delete • Click keys on the left gutter to audition pitch.
+      </div>
+      <div class="piano-roll-body">
+        <div class="piano-roll-keys-gutter" id="piano-roll-keys-gutter"></div>
+        <div class="piano-roll-grid-scroll">
+          <div class="piano-roll-grid" id="piano-roll-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="modal-container" id="shortcuts-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Physical QWERTY Keyboard Mapping</h2>
+        <button class="modal-close-btn">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; line-height: 1.6;">
+        <p>You can perform any musical melody or polyphonic chord using your computer's physical keyboard:</p>
+        <div style="background: var(--bg-dark); padding: 14px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 12px;">
+          <strong>Lower Chromatic Row (Natural White Keys):</strong><br>
+          A = C &nbsp;|&nbsp; S = D &nbsp;|&nbsp; D = E &nbsp;|&nbsp; F = F &nbsp;|&nbsp; G = G &nbsp;|&nbsp; H = A &nbsp;|&nbsp; J = B &nbsp;|&nbsp; K = C5 &nbsp;|&nbsp; L = D5 &nbsp;|&nbsp; ; = E5<br><br>
+          <strong>Upper Chromatic Row (Black Accidentals #/b):</strong><br>
+          W = C# &nbsp;|&nbsp; E = D# &nbsp;|&nbsp; T = F# &nbsp;|&nbsp; Y = G# &nbsp;|&nbsp; U = A# &nbsp;|&nbsp; O = C#5 &nbsp;|&nbsp; P = D#5<br><br>
+          <strong>Octave & Performance Controls:</strong><br>
+          Z / X = Octave Down / Up<br>
+          C / V = Velocity Decrease / Increase<br>
+          Space = Sustain Pedal (hold or tap)<br>
+          Escape = Silence all playing notes (Panic)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help & Licensing Modal -->
+  <div class="modal-container" id="help-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>About & Instrument Licensing</h2>
+        <button class="modal-close-btn">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+        <p><strong>Virtual Music Studio</strong> is a digital audio workstation built entirely with vanilla Web Audio API and modern JavaScript standards.</p>
+        <h4>Audio Samples & SoundBank Attribution</h4>
+        <p>All instrument sample banks are powered by legally licensed open-source General MIDI soundbanks under the MIT, Creative Commons (CC-BY / CC0), and Public Domain licenses:</p>
+        <ul style="padding-left: 20px;">
+          <li><strong>FluidR3 SoundFont:</strong> Acoustic Grand, Strings, Flutes, Mallets (MIT License).</li>
+          <li><strong>GeneralUser GS SoundBank:</strong> S. Christian Collins (CC-BY 4.0).</li>
+          <li><strong>WebAudioFont Engine:</strong> Sergey Surikov Open Source Project.</li>
+          <li><strong>Chaos SoundFont:</strong> Acoustic uprights, world lutes, and brass sections (CC0 Public Domain).</li>
+        </ul>
+        <p>All sample assets are distributed legally in accordance with their respective open licenses.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- First-Time Onboarding Modal -->
+  <div class="modal-container" id="onboarding-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="text-align: center; max-width: 540px;">
+      <div style="font-size: 40px; margin-bottom: 8px;">🎹✨</div>
+      <h2 style="font-size: 22px; margin-bottom: 8px;">Welcome to Virtual Music Studio!</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">
+        Your computer keyboard is now a 24-instrument professional digital music studio.
+      </p>
+      <div style="text-align: left; background: var(--bg-dark); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px; font-size: 13px; line-height: 1.6;">
+        <strong>Quick 3-Step Guide:</strong><br>
+        1. <strong>Play:</strong> Press keys <strong>A - S - D - F</strong> to play musical notes with authentic acoustic timbre.<br>
+        2. <strong>Switch Instruments:</strong> Explore 24 instruments in the Instruments tab.<br>
+        3. <strong>Record:</strong> Click <strong>● Rec</strong> in the top toolbar to capture your composition!
+      </div>
+      <button class="btn btn-primary" style="width: 100%; padding: 10px;" onclick="window.audioEngine.unlockAudio().then(() => window.app.closeModal('onboarding-modal'))">Let's Play Music!</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="studio-toast" id="studio-toast">Message</div>
+
+  <!-- External WebAudioFont Player (with fallback) -->
+  <script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
+
+  <!-- Application Modular Scripts in Dependency Order -->
+  <script src="js/audio-engine.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/instrument-catalog.js"></script>
+  <script src="js/soundfont-manager.js"></script>
+  <script src="js/instrument-manager.js"></script>
+  <script src="js/note-mapper.js"></script>
+  <script src="js/keyboard-controller.js"></script>
+  <script src="js/recording-engine.js"></script>
+  <script src="js/track-manager.js"></script>
+  <script src="js/mixer-engine.js"></script>
+  <script src="js/piano-roll.js"></script>
+  <script src="js/drum-machine.js"></script>
+  <script src="js/music-theory.js"></script>
+  <script src="js/genre-manager.js"></script>
+  <script src="js/tutorial-manager.js"></script>
+  <script src="js/project-manager.js"></script>
+  <script src="js/export-manager.js"></script>
+  <script src="js/automation-engine.js"></script>
+  <script src="js/clip-manager.js"></script>
+  <script src="js/chord-generator.js"></script>
+  <script src="js/arpeggiator.js"></script>
+  <script src="js/arrangement-manager.js"></script>
+  <script src="js/mastering-engine.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,609 @@
+/**
+ * Virtual Music Studio - Professional DAW Mixing Console & Effects Rack Styles
+ */
+
+.mixer-view-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+/* Mixer Top Bar */
+.mixer-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #111122;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.mixer-title-group h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: #FFFFFF;
+}
+
+.mixer-subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.mixer-presets-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* Channel DSP Inspector */
+.mixer-dsp-inspector {
+  background: #0C0C1A;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.mixer-dsp-inspector.collapsed {
+  display: none;
+}
+
+.inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.inspector-badge {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #8B5CF6;
+  box-shadow: 0 0 6px currentColor;
+}
+
+#inspector-track-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+  color: #FFFFFF;
+}
+
+.inspector-body {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 1200px) {
+  .inspector-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inspector-module {
+  background: #111124;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.module-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: #CBD5E1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Parametric EQ Visualizer Canvas */
+.eq-visualizer-container {
+  background: #080812;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  height: 110px;
+}
+
+#inspector-eq-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.eq-canvas-grid-labels {
+  position: absolute;
+  bottom: 2px;
+  left: 6px;
+  right: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  font-family: var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.eq-knobs-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.dsp-knob-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+
+.dsp-knob-group label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.dsp-knob-group input[type="range"] {
+  width: 100%;
+  accent-color: #8B5CF6;
+  height: 4px;
+}
+
+.dsp-knob-group span {
+  font-size: 9px;
+  font-family: var(--font-mono, monospace);
+  color: #A78BFA;
+  font-weight: 600;
+}
+
+/* Dynamics Compressor Controls */
+.comp-knobs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 6px;
+}
+
+.comp-reduction-meter-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0A0A14;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 4px;
+}
+
+.reduction-meter-bar-track {
+  flex: 1;
+  height: 8px;
+  background: #18182C;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.reduction-meter-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0%;
+  background: #EF4444;
+  transition: width 0.06s ease-out;
+}
+
+/* Aux Return Modules */
+.aux-processors-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aux-tab-panel {
+  background: #0B0B16;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+
+/* Mixer Console Scroll & Channel Strips */
+.mixer-console-scroll {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #070710;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  position: relative;
+}
+
+.mixer-channel-strips {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+}
+
+.mixer-channel-strip {
+  width: 120px;
+  min-width: 120px;
+  background: #111122;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+.mixer-channel-strip:hover {
+  background: #141428;
+}
+
+.mixer-channel-strip.selected {
+  border: 1.5px solid #8B5CF6;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.35);
+  background: #14142B;
+}
+
+/* Channel Header */
+.ch-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ch-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.ch-title-wrap {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ch-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ch-inst {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Aux Sends Knobs */
+.ch-sends-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.send-knob-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.send-knob-row label {
+  font-size: 8px;
+  font-weight: 700;
+  width: 22px;
+}
+
+.send-knob-row.rev label { color: #8B5CF6; }
+.send-knob-row.dly label { color: #06B6D4; }
+.send-knob-row.cho label { color: #10B981; }
+
+.send-knob-row input[type="range"] {
+  flex: 1;
+  height: 3px;
+}
+
+.send-knob-row span {
+  font-size: 8px;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-dim);
+  width: 22px;
+  text-align: right;
+}
+
+/* Stereo Pan Control */
+.ch-pan-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ch-pan-area label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.ch-pan-slider {
+  width: 90%;
+  height: 4px;
+  accent-color: #38BDF8;
+}
+
+.ch-pan-value {
+  font-size: 9px;
+  font-family: var(--font-mono, monospace);
+  color: #38BDF8;
+  font-weight: 600;
+}
+
+/* Mute / Solo Buttons */
+.ch-button-row {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.ch-btn {
+  flex: 1;
+  height: 22px;
+  padding: 0;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 3px;
+  background: #1B1B30;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.ch-btn:hover {
+  background: #262642;
+  color: #FFFFFF;
+}
+
+.ch-btn.btn-mute.active {
+  background: #F59E0B;
+  color: #000000;
+  font-weight: 800;
+  border-color: #F59E0B;
+}
+
+.ch-btn.btn-solo.active {
+  background: #06B6D4;
+  color: #000000;
+  font-weight: 800;
+  border-color: #06B6D4;
+}
+
+/* Fader & Meter Center Stage */
+.ch-fader-meter-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 0;
+  flex: 1;
+}
+
+.fader-track-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.fader-db-display {
+  font-size: 9px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #CBD5E1;
+}
+
+.vertical-fader {
+  writing-mode: bt-lr; /* IE/Edge */
+  -webkit-appearance: slider-vertical; /* WebKit */
+  width: 22px;
+  height: 140px;
+  accent-color: #8B5CF6;
+  cursor: pointer;
+}
+
+.meter-track {
+  width: 8px;
+  height: 140px;
+  background: #07070E;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.meter-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to top, #10B981 0%, #10B981 65%, #F59E0B 80%, #EF4444 100%);
+  transition: height 0.05s ease-out;
+}
+
+.clip-led {
+  font-size: 7px;
+  font-weight: 800;
+  padding: 2px;
+  border-radius: 2px;
+  background: #251010;
+  color: #662222;
+  text-align: center;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.clip-led.active {
+  background: #EF4444;
+  color: #FFFFFF;
+  box-shadow: 0 0 6px #EF4444;
+}
+
+/* Channel Footer */
+.ch-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ch-inspect-btn {
+  font-size: 9px;
+  padding: 2px 5px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #CBD5E1;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.ch-inspect-btn:hover {
+  background: #8B5CF6;
+  color: #FFFFFF;
+}
+
+/* Master Channel Strip */
+.master-channel {
+  width: 150px;
+  min-width: 150px;
+  background: #141428;
+  border: 1.5px solid rgba(239, 68, 68, 0.4);
+  position: sticky;
+  right: 0;
+  z-index: 10;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.6);
+}
+
+.master-spectrum-box {
+  height: 60px;
+  background: #090914;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+#mixer-master-spectrum {
+  width: 100%;
+  height: 100%;
+}
+
+.master-limiter-badge {
+  font-size: 8px;
+  font-weight: 800;
+  text-align: center;
+  padding: 3px;
+  border-radius: 3px;
+  background: #1E1212;
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  margin-bottom: 4px;
+}
+
+.master-limiter-badge.active {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+.master-meters-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.meter-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.meter-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.master-meters-container .meter-track {
+  height: 120px;
+}
+
+.master-fader {
+  height: 120px;
+  accent-color: #EF4444;
+}
+
+.meter-peak-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+#master-peak-db {
+  font-size: 8px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #CBD5E1;
+}

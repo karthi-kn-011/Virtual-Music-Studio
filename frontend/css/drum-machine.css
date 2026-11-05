@@ -1,0 +1,133 @@
+/**
+ * Virtual Music Studio - Drum Machine Sequencer Styles
+ */
+
+.drum-machine-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drum-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  padding: 12px 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.drum-presets-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.drum-sequencer-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #090914;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.drum-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drum-channel-label {
+  width: 170px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.drum-color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.drum-audition-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 10px;
+  margin-left: auto;
+}
+.drum-audition-btn:hover {
+  color: #fff;
+}
+
+.steps-container {
+  display: flex;
+  gap: 6px;
+}
+
+.step-indicator-badge {
+  width: 38px;
+  height: 20px;
+  background: var(--bg-card);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.step-indicator-badge.downbeat {
+  color: var(--accent-gold);
+  border-bottom: 2px solid var(--accent-gold);
+}
+
+.step-indicator-badge.current {
+  background: var(--accent-purple);
+  color: #fff;
+  box-shadow: 0 0 10px var(--accent-purple-glow);
+}
+
+.drum-step-btn {
+  width: 38px;
+  height: 44px;
+  background: #161629;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.drum-step-btn.beat-start {
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.drum-step-btn:hover {
+  background: #23233E;
+}
+
+.drum-step-btn.active {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+
+.drum-step-btn.playing-step {
+  filter: brightness(1.6);
+  transform: scale(1.05);
+}

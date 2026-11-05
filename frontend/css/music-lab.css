@@ -1,0 +1,111 @@
+/**
+ * Virtual Music Studio - Music Theory Lab & Circle of Fifths Styles
+ */
+
+.music-lab-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+}
+
+.lab-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.circle-svg {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.circle-node {
+  fill: #1A1A2E;
+  stroke: var(--accent-purple);
+  stroke-width: 2;
+  transition: all 0.2s ease;
+}
+
+.circle-item:hover .circle-node {
+  fill: var(--accent-purple);
+}
+
+.circle-item.selected .circle-node {
+  fill: var(--accent-gold);
+  stroke: #fff;
+  stroke-width: 3;
+}
+
+.circle-text {
+  fill: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.circle-item.selected .circle-text {
+  fill: #000;
+}
+
+/* Chords Grid */
+.chords-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.chord-card {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chord-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent-gold);
+}
+
+.chord-card-notes {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* Progressions List */
+.progressions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progression-card {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.prog-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.prog-chords {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+}

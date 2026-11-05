@@ -1,0 +1,63 @@
+/**
+ * Virtual Music Studio - Responsive Design Styles
+ */
+
+@media (max-width: 1024px) {
+  .music-lab-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .current-instrument-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .hero-right-visualizer {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .visualizer-box canvas {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .studio-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .top-toolbar {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .piano-key.white-key {
+    width: 36px;
+    height: 160px;
+  }
+
+  .piano-key.black-key {
+    width: 24px;
+    height: 100px;
+    margin-left: -12px;
+    margin-right: -12px;
+  }
+
+  .instruments-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .arranger-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

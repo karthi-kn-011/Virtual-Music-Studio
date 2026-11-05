@@ -1,0 +1,205 @@
+/**
+ * Virtual Music Studio - Genre Explorer & Tutorial Styles
+ */
+
+/* Genres Grid */
+.genres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.genre-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.genre-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-purple);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.genre-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.genre-name {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.genre-bpm-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.15);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.genre-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.genre-meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-size: 11px;
+  background: var(--bg-dark);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.genre-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.genre-actions .btn {
+  flex: 1;
+}
+
+/* Tutorial Cards */
+.tutorials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.tutorial-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tut-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tut-category {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+}
+
+.tut-badge {
+  font-size: 11px;
+  background: var(--bg-dark);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+}
+
+.tut-badge.done {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--accent-green);
+}
+
+.tut-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.tut-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tut-steps-count {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Active Lesson View */
+.active-lesson-view {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lesson-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lesson-title-badge {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.step-counter {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-purple);
+}
+
+.tut-progress-track {
+  height: 6px;
+  background: var(--bg-dark);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tut-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+  transition: width 0.3s ease;
+}
+
+.lesson-instruction-card {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.step-hint {
+  font-size: 13px;
+  color: var(--accent-gold);
+}
+
+.lesson-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
