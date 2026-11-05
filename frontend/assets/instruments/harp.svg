@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgHarp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#141122"/>
+      <stop offset="50%" stop-color="#211A3A"/>
+      <stop offset="100%" stop-color="#0A0814"/>
+    </linearGradient>
+    <radialGradient id="harpSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gildedGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="80%" stop-color="#B45309"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+    <filter id="harpShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgHarp)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#harpSpot)"/>
+  
+  <g filter="url(#harpShadow)">
+    <!-- Concert Pedal Harp Frame -->
+    <!-- Heavy Pedestal Base -->
+    <rect x="75" y="160" width="170" height="15" rx="3" fill="#3B1C0B" stroke="#D97706" stroke-width="1"/>
+    <!-- Feet -->
+    <circle cx="85" cy="177" r="4" fill="url(#gildedGold)"/>
+    <circle cx="235" cy="177" r="4" fill="url(#gildedGold)"/>
+    
+    <!-- Soundbox Body (Diagonal Right Beam) -->
+    <path d="M 225 160 L 210 40 L 195 40 L 175 160 Z" fill="#582914" stroke="#D97706" stroke-width="1.2"/>
+    <!-- Center Soundboard Strip -->
+    <line x1="202" y1="42" x2="200" y2="158" stroke="#FDE68A" stroke-width="2"/>
+    
+    <!-- Harmonic Curve (Neck / Arch) -->
+    <path d="M 90 35 C 120 20, 160 15, 210 40 C 200 48, 170 32, 110 50 Z" fill="url(#gildedGold)" stroke="#D97706" stroke-width="1"/>
+    
+    <!-- Forepillar / Column (Fluted Classical Pillar) -->
+    <path d="M 85 30 L 98 33 L 90 160 L 78 160 Z" fill="url(#gildedGold)" stroke="#B45309" stroke-width="1"/>
+    <!-- Crown / Capital Carving -->
+    <circle cx="88" cy="28" r="8" fill="url(#gildedGold)" stroke="#FDE68A" stroke-width="1"/>
+
+    <!-- Harp Strings (Color Coded: Red for C, Black/Blue for F, White/Gold for others) -->
+    <g opacity="0.85">
+      <line x1="108" y1="48" x2="178" y2="155" stroke="#EF4444" stroke-width="1.2"/> <!-- C string -->
+      <line x1="115" y1="46" x2="180" y2="148" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="122" y1="44" x2="182" y2="141" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="129" y1="42" x2="184" y2="134" stroke="#38BDF8" stroke-width="1.2"/> <!-- F string -->
+      <line x1="136" y1="40" x2="186" y2="127" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="143" y1="38" x2="188" y2="120" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="150" y1="36" x2="190" y2="113" stroke="#FFFFFF" stroke-width="0.8"/>
+      
+      <line x1="157" y1="35" x2="192" y2="106" stroke="#EF4444" stroke-width="1.2"/> <!-- C string -->
+      <line x1="164" y1="35" x2="194" y2="99" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="171" y1="36" x2="196" y2="92" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="178" y1="37" x2="198" y2="85" stroke="#38BDF8" stroke-width="1.2"/> <!-- F string -->
+      <line x1="185" y1="38" x2="200" y2="78" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="192" y1="39" x2="202" y2="71" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="199" y1="40" x2="204" y2="64" stroke="#FFFFFF" stroke-width="0.8"/>
+      <line x1="206" y1="41" x2="206" y2="57" stroke="#EF4444" stroke-width="1.2"/> <!-- C string -->
+    </g>
+  </g>
+  
+  <text x="20" y="186" fill="#C4B5FD" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">CONCERT PEDAL HARP</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">47 STRINGS • 7 PEDALS</text>
+</svg>

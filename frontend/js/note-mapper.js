@@ -47,6 +47,12 @@ class NoteMapper {
     const octave = this.baseOctave + mapping.octaveOffset;
     // MIDI note formula: (octave + 1) * 12 + semitone
     const midi = (octave + 1) * 12 + mapping.semitone;
+
+    // Clamp to 88-key acoustic piano range (A0 = 21 to C8 = 108)
+    if (midi < 21 || midi > 108) {
+      return null;
+    }
+
     return {
       midiNote: midi,
       noteName: `${mapping.noteName}${octave}`,

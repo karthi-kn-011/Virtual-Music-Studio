@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgOud" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1B140F"/>
+      <stop offset="50%" stop-color="#2D1D13"/>
+      <stop offset="100%" stop-color="#0E0A07"/>
+    </linearGradient>
+    <radialGradient id="oudSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#B45309" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="oudBowl" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9A3412"/>
+      <stop offset="50%" stop-color="#78350F"/>
+      <stop offset="100%" stop-color="#3D1A04"/>
+    </linearGradient>
+    <filter id="oudShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgOud)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#oudSpot)"/>
+  
+  <g filter="url(#oudShadow)">
+    <!-- Sharp Angled Pegbox (Bent Back at 45-60 degrees) -->
+    <path d="M 40 120 L 68 85 L 82 92 L 56 126 Z" fill="#3D1A04" stroke="#F59E0B" stroke-width="0.8"/>
+    <!-- 11-12 Tuning Pegs (Malawi) -->
+    <circle cx="48" cy="115" r="2.2" fill="#FEF3C7"/>
+    <circle cx="56" cy="105" r="2.2" fill="#FEF3C7"/>
+    <circle cx="64" cy="95" r="2.2" fill="#FEF3C7"/>
+    <circle cx="72" cy="85" r="2.2" fill="#FEF3C7"/>
+
+    <!-- Short Fretless Neck -->
+    <rect x="75" y="85" width="55" height="15" fill="#1C0E05" stroke="#78350F" stroke-width="0.8" transform="rotate(-4 102 92)"/>
+
+    <!-- Pear-Shaped Bowl Soundboard (Qas'ah Strips) -->
+    <g transform="translate(125, 20)">
+      <!-- Deep Pear Shape Body -->
+      <path d="M 12 70 C 8 35, 45 25, 85 35 C 120 45, 140 75, 138 105 C 135 135, 100 155, 65 152 C 30 150, 10 115, 12 70 Z" fill="url(#oudBowl)" stroke="#D97706" stroke-width="1.5"/>
+      
+      <!-- Ornate Bone Rosettes (Shamsiyyah / Qamar) -->
+      <!-- Large Center Rosette -->
+      <circle cx="68" cy="88" r="16" fill="#180C04" stroke="#FDE68A" stroke-width="1.2"/>
+      <circle cx="68" cy="88" r="10" fill="#0A0502" stroke="#F59E0B" stroke-width="0.8" stroke-dasharray="2 2"/>
+      
+      <!-- Two Smaller Upper Rosettes -->
+      <circle cx="45" cy="58" r="8" fill="#180C04" stroke="#FDE68A" stroke-width="0.8"/>
+      <circle cx="95" cy="58" r="8" fill="#180C04" stroke="#FDE68A" stroke-width="0.8"/>
+
+      <!-- Tied Mustache Bridge (Rabita) -->
+      <rect x="52" y="128" width="40" height="7" rx="2" fill="#2E1205" stroke="#FDE68A" stroke-width="0.5"/>
+    </g>
+
+    <!-- 11 Nylon & Wound Strings in Courses (Fretless Glissando Sound) -->
+    <line x1="72" y1="88" x2="195" y2="150" stroke="#FFFFFF" stroke-width="0.7" opacity="0.9"/>
+    <line x1="73" y1="90" x2="196" y2="151" stroke="#FFFFFF" stroke-width="0.7" opacity="0.9"/>
+    <line x1="74" y1="92" x2="198" y2="152" stroke="#FFFFFF" stroke-width="0.8" opacity="0.9"/>
+    <line x1="75" y1="94" x2="200" y2="153" stroke="#FDE68A" stroke-width="0.9" opacity="0.95"/>
+    <line x1="76" y1="96" x2="202" y2="154" stroke="#FDE68A" stroke-width="1" opacity="0.95"/>
+    <line x1="77" y1="98" x2="204" y2="155" stroke="#FDE68A" stroke-width="1.1" opacity="0.95"/>
+
+    <!-- Eagle Feather Plectrum (Risha) -->
+    <path d="M 220 120 C 235 110, 245 125, 230 135 Z" fill="#F8FAFC" opacity="0.85"/>
+  </g>
+  
+  <text x="20" y="186" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">ARABIC ACOUSTIC OUD</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">FRETLESS • RISHA PLECTRUM</text>
+</svg>

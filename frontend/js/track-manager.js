@@ -22,6 +22,7 @@ class TrackManager {
     this.animationFrameId = null;
     this.selectedTrackId = null;
     this.onTimelineUpdateCallbacks = [];
+    this.onBpmChangeCallbacks = [];
   }
 
   init() {
@@ -105,10 +106,41 @@ class TrackManager {
     this.renderArrangerUI();
   }
 
+  onBpmChange(cb) {
+    this.onBpmChangeCallbacks.push(cb);
+  }
+
   setBpm(newBpm) {
-    this.bpm = Math.max(40, Math.min(260, newBpm));
+    const val = parseInt(newBpm, 10);
+    if (isNaN(val)) return;
+    this.bpm = Math.max(40, Math.min(260, val));
+
+    // Update top toolbar input
     const bpmDisplay = document.getElementById('studio-bpm-input');
-    if (bpmDisplay) bpmDisplay.value = this.bpm;
+    if (bpmDisplay && parseInt(bpmDisplay.value, 10) !== this.bpm) {
+      bpmDisplay.value = this.bpm;
+    }
+
+    // Sync drum machine
+    if (window.drumMachine) {
+      window.drumMachine.bpm = this.bpm;
+    }
+
+    // Update Session Overview immediately
+    const sessionBpm = document.getElementById('dash-session-bpm');
+    if (sessionBpm) {
+      sessionBpm.textContent = `${this.bpm} BPM`;
+    }
+
+    // Update current project if active
+    if (window.projectManager && window.projectManager.currentProject) {
+      window.projectManager.currentProject.bpm = this.bpm;
+    }
+
+    // Notify listeners
+    this.onBpmChangeCallbacks.forEach(cb => {
+      try { cb(this.bpm); } catch (e) { console.error(e); }
+    });
   }
 
   togglePlay() {

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgSax" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F160C"/>
+      <stop offset="50%" stop-color="#332210"/>
+      <stop offset="100%" stop-color="#120C05"/>
+    </linearGradient>
+    <radialGradient id="saxSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#B45309" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brassGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="30%" stop-color="#FBBF24"/>
+      <stop offset="70%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+    <filter id="saxShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgSax)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#saxSpot)"/>
+  
+  <g filter="url(#saxShadow)">
+    <!-- Tenor / Alto Saxophone Silhouette with Curved Neck & Flared Bell -->
+    <!-- Ebonite Mouthpiece & Ligature -->
+    <path d="M 100 25 L 112 25 L 108 36 L 98 36 Z" fill="#18181B"/>
+    <rect x="99" y="30" width="10" height="4" fill="url(#brassGold)"/>
+
+    <!-- Gooseneck Curve (Neck) -->
+    <path d="M 104 36 C 96 46, 110 58, 125 58 L 132 58" fill="none" stroke="url(#brassGold)" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Conical Body Tube descending diagonally -->
+    <path d="M 132 58 L 155 130" stroke="url(#brassGold)" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- U-Bow & Flared Upward Bell -->
+    <path d="M 155 130 C 158 158, 195 165, 205 135 L 214 95" fill="none" stroke="url(#brassGold)" stroke-width="14" stroke-linecap="round"/>
+
+    <!-- Wide Flaring Bell Flare -->
+    <ellipse cx="216" cy="85" rx="18" ry="24" fill="url(#brassGold)" stroke="#FEF08A" stroke-width="1.5" transform="rotate(-15 216 85)"/>
+    <ellipse cx="216" cy="85" rx="12" ry="18" fill="#451A03" transform="rotate(-15 216 85)"/>
+
+    <!-- Keywork Mechanism & Mother of Pearl Key Cups -->
+    <g fill="#FEF3C7" stroke="#78350F" stroke-width="0.8">
+      <!-- Upper Stack Pearls -->
+      <circle cx="132" cy="72" r="3.5"/>
+      <circle cx="136" cy="84" r="3.5"/>
+      <circle cx="140" cy="96" r="3.5"/>
+      <!-- Lower Stack Pearls -->
+      <circle cx="145" cy="110" r="3.5"/>
+      <circle cx="149" cy="122" r="3.5"/>
+      <circle cx="153" cy="134" r="3.5"/>
+
+      <!-- Bell Keys (B & Bb Large Key Guards) -->
+      <circle cx="195" cy="125" r="5"/>
+      <circle cx="202" cy="110" r="5"/>
+    </g>
+
+    <!-- Key Rods & Pivot Posts running along body -->
+    <line x1="126" y1="62" x2="148" y2="135" stroke="#FDE68A" stroke-width="1"/>
+    <line x1="138" y1="62" x2="160" y2="135" stroke="#FDE68A" stroke-width="1"/>
+  </g>
+  
+  <text x="20" y="186" fill="#FBBF24" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">TENOR & ALTO SAXOPHONE</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">BRASS LACQUER • SMOKY JAZZ</text>
+</svg>

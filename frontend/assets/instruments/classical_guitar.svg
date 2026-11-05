@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGuitar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#19130D"/>
+      <stop offset="50%" stop-color="#281A11"/>
+      <stop offset="100%" stop-color="#0E0906"/>
+    </linearGradient>
+    <radialGradient id="guitarSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#B45309" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cedarTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C28251"/>
+      <stop offset="50%" stop-color="#A76839"/>
+      <stop offset="100%" stop-color="#884F25"/>
+    </linearGradient>
+    <linearGradient id="rosewoodNeck" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3D1E10"/>
+      <stop offset="50%" stop-color="#542B17"/>
+      <stop offset="100%" stop-color="#291208"/>
+    </linearGradient>
+    <filter id="guitarShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgGuitar)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#guitarSpot)"/>
+  
+  <g filter="url(#guitarShadow)">
+    <!-- Slotted Headstock & Tuning Pegs (Angled left) -->
+    <rect x="25" y="88" width="45" height="18" rx="2" fill="url(#rosewoodNeck)" transform="rotate(-15 47 97)"/>
+    <circle cx="36" cy="85" r="2.5" fill="#E2E8F0"/>
+    <circle cx="48" cy="82" r="2.5" fill="#E2E8F0"/>
+    <circle cx="60" cy="79" r="2.5" fill="#E2E8F0"/>
+    <circle cx="42" cy="106" r="2.5" fill="#E2E8F0"/>
+    <circle cx="54" cy="103" r="2.5" fill="#E2E8F0"/>
+    <circle cx="66" cy="100" r="2.5" fill="#E2E8F0"/>
+    
+    <!-- Rosewood Neck with Frets -->
+    <rect x="65" y="90" width="85" height="14" fill="url(#rosewoodNeck)" transform="rotate(-5 107 97)"/>
+    <!-- Nickel Frets -->
+    <line x1="78" y1="89" x2="77" y2="103" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="92" y1="88" x2="91" y2="102" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="106" y1="87" x2="105" y2="101" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="120" y1="86" x2="119" y2="100" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="134" y1="85" x2="133" y2="99" stroke="#CBD5E1" stroke-width="1"/>
+
+    <!-- Figure-8 Acoustic Soundboard -->
+    <g transform="translate(140, 25)">
+      <!-- Upper Bout, Waist, Lower Bout -->
+      <path d="M 25 72 C 15 45, 55 35, 75 48 C 95 60, 95 72, 85 82 C 110 95, 115 130, 85 145 C 55 160, 15 145, 18 115 C 20 95, 15 85, 25 72 Z" fill="url(#cedarTop)" stroke="#D97706" stroke-width="1.5"/>
+      <!-- Rosette Inlay & Soundhole -->
+      <circle cx="58" cy="85" r="18" fill="#1C1008" stroke="#D97706" stroke-width="1"/>
+      <circle cx="58" cy="85" r="14" fill="#0A0604"/>
+      <!-- Classical Rosewood Bridge -->
+      <rect x="42" y="118" width="34" height="8" rx="1.5" fill="#3B1808" stroke="#FDE68A" stroke-width="0.5"/>
+      <rect x="47" y="120" width="24" height="2" fill="#FFFFFF"/>
+    </g>
+
+    <!-- 6 Nylon Strings from Headstock to Bridge -->
+    <line x1="50" y1="92" x2="190" y2="145" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85"/>
+    <line x1="52" y1="94" x2="192" y2="147" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85"/>
+    <line x1="54" y1="96" x2="194" y2="149" stroke="#E2E8F0" stroke-width="0.9" opacity="0.9"/>
+    <line x1="56" y1="98" x2="196" y2="151" stroke="#FDE68A" stroke-width="1" opacity="0.9"/>
+    <line x1="58" y1="100" x2="198" y2="153" stroke="#FDE68A" stroke-width="1.1" opacity="0.95"/>
+    <line x1="60" y1="102" x2="200" y2="155" stroke="#FDE68A" stroke-width="1.2" opacity="0.95"/>
+  </g>
+  
+  <text x="20" y="186" fill="#FBBF24" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">SPANISH CLASSICAL GUITAR</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">NYLON STRINGS • CEDAR</text>
+</svg>

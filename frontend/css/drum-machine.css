@@ -1,23 +1,28 @@
 /**
  * Virtual Music Studio - Drum Machine Sequencer Styles
+ * Studio Precision Theme: Vintage Hardware Meets High-Tech Studio Precision
  */
 
 .drum-machine-layout {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .drum-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-card);
-  padding: 12px 18px;
+  background: var(--bg-panel);
+  padding: 10px 16px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-standard);
   flex-wrap: wrap;
   gap: 12px;
+  box-shadow: var(--shadow-sm);
 }
 
 .drum-presets-group {
@@ -30,11 +35,12 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: #090914;
-  border: 1px solid var(--border-subtle);
+  background: #09090D;
+  border: 1px solid var(--border-standard);
   border-radius: var(--radius-lg);
   padding: 16px;
   overflow-x: auto;
+  box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.7);
 }
 
 .drum-row {
@@ -49,85 +55,100 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .drum-color-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
 }
 
 .drum-audition-btn {
-  background: var(--bg-card);
+  background: var(--bg-interactive);
   border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   width: 22px;
   height: 22px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   cursor: pointer;
   font-size: 10px;
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
 }
+
 .drum-audition-btn:hover {
-  color: #fff;
+  color: #FFFFFF;
+  background: var(--color-violet);
+  border-color: var(--color-violet-light);
 }
 
 .steps-container {
   display: flex;
-  gap: 6px;
+  gap: 5px;
 }
 
 .step-indicator-badge {
-  width: 38px;
+  width: 36px;
   height: 20px;
-  background: var(--bg-card);
+  background: var(--bg-elevated);
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: 800;
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-family: var(--font-mono);
+  border: 1px solid var(--border-subtle);
 }
 
 .step-indicator-badge.downbeat {
-  color: var(--accent-gold);
-  border-bottom: 2px solid var(--accent-gold);
+  color: var(--color-amber);
+  border-bottom: 2px solid var(--color-amber);
 }
 
 .step-indicator-badge.current {
-  background: var(--accent-purple);
-  color: #fff;
-  box-shadow: 0 0 10px var(--accent-purple-glow);
+  background: var(--color-violet);
+  color: #FFFFFF;
+  box-shadow: 0 0 10px var(--color-violet-glow);
+  border-color: var(--color-violet-light);
 }
 
 .drum-step-btn {
-  width: 38px;
-  height: 44px;
-  background: #161629;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
+  width: 36px;
+  height: 42px;
+  background: #14141C;
+  border: 1px solid #282836;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  transition: all 0.1s ease;
+  transition: all 0.08s ease;
+  position: relative;
 }
 
 .drum-step-btn.beat-start {
-  border-left: 2px solid rgba(255, 255, 255, 0.25);
+  border-left: 2px solid rgba(255, 255, 255, 0.35);
 }
 
 .drum-step-btn:hover {
-  background: #23233E;
+  background: #1F1F2B;
+  border-color: #3E3E52;
 }
 
 .drum-step-btn.active {
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+  border-color: #FFFFFF;
 }
 
 .drum-step-btn.playing-step {
-  filter: brightness(1.6);
-  transform: scale(1.05);
+  filter: brightness(1.7);
+  transform: scale(1.06);
+  z-index: 5;
+  box-shadow: 0 0 14px currentColor;
 }

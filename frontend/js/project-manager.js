@@ -127,7 +127,7 @@ class ProjectManager {
         if (project) {
           this.currentProject = project;
           if (window.trackManager) {
-            window.trackManager.bpm = project.bpm || 120;
+            window.trackManager.setBpm(project.bpm || 120);
             window.trackManager.tracks = (project.tracks || []).map(t => ({
               ...t,
               events: t.events || t.notes || []
@@ -208,6 +208,7 @@ class ProjectManager {
       tracks: []
     };
     if (window.trackManager) {
+      window.trackManager.setBpm(120);
       window.trackManager.tracks = [];
       window.trackManager.createTrack('classical_piano', 'Piano Track');
       window.trackManager.createTrack('violin', 'Violin Melody');

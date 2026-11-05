@@ -17,6 +17,9 @@ class KeyboardController {
     this.currentInstrument = null;
     this.onNoteTriggerCallbacks = [];
     this.customKeyMap = null;
+    this._isUserScrollingManually = false;
+    this._manualScrollTimer = null;
+    this._scrollTimer = null;
   }
 
   init(containerEl) {
@@ -89,7 +92,118 @@ class KeyboardController {
 
     this.containerEl.appendChild(keyboardWrapper);
     this.updateKeyLabels();
-    this.scrollKeyboardToOctave(window.noteMapper.baseOctave);
+
+    // Reset initial keyboard scroll position to the actual leftmost position (A0)
+    const scrollContainer = this.getScrollContainer();
+    if (scrollContainer) {
+      scrollContainer.scrollLeft = 0;
+    }
+
+    // Bind accessible nav arrow buttons, wheel scrolling, and drag handling
+    this._bindScrollControls();
+  }
+
+  /**
+   * Helper to resolve the scroll container
+   */
+  getScrollContainer() {
+    if (!this.containerEl) return document.getElementById('piano-keyboard-scroller');
+    return this.containerEl.closest('.piano-keyboard-scroll-container') || document.getElementById('piano-keyboard-scroller');
+  }
+
+  /**
+   * Binds mouse wheel, touchpad gestures, and drag scrolling
+   */
+  _markManualScroll() {
+    this._isUserScrollingManually = true;
+    if (this._manualScrollTimer) clearTimeout(this._manualScrollTimer);
+    this._manualScrollTimer = setTimeout(() => {
+      this._isUserScrollingManually = false;
+    }, 600);
+  }
+
+  /**
+   * Binds mouse wheel, touchpad gestures, and drag scrolling
+   */
+  _bindScrollControls() {
+    const scrollContainer = this.getScrollContainer();
+    if (!scrollContainer) return;
+
+    // Wheel listener: Shift + mouse wheel, touchpad gestures, and translating deltaY to horizontal scroll
+    scrollContainer.addEventListener('wheel', (e) => {
+      this._markManualScroll();
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        // Native horizontal gesture (touchpad or horizontal scroll wheel)
+        return;
+      }
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        scrollContainer.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    // Mouse drag-to-scroll (grab & drag on empty container areas or with middle click)
+    let isMouseDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+
+    scrollContainer.addEventListener('mousedown', (e) => {
+      const isMiddle = e.button === 1;
+      const isPaddingArea = e.target === scrollContainer || e.target === this.containerEl || e.target.classList.contains('piano-keys-wrapper');
+
+      if (isMiddle || isPaddingArea) {
+        this._markManualScroll();
+        isMouseDown = true;
+        startX = e.pageX - scrollContainer.offsetLeft;
+        startScrollLeft = scrollContainer.scrollLeft;
+        scrollContainer.classList.add('is-dragging');
+        e.preventDefault();
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      this._markManualScroll();
+      e.preventDefault();
+      const x = e.pageX - scrollContainer.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      scrollContainer.scrollLeft = startScrollLeft - walk;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isMouseDown) {
+        isMouseDown = false;
+        scrollContainer.classList.remove('is-dragging');
+        this._markManualScroll();
+      }
+    });
+
+    // Touch horizontal swipe on the scroller container
+    let touchStartX = 0;
+    let touchStartScrollLeft = 0;
+    let isTouchingContainer = false;
+
+    scrollContainer.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1 && (e.target === scrollContainer || e.target === this.containerEl || e.target.classList.contains('piano-keys-wrapper'))) {
+        this._markManualScroll();
+        isTouchingContainer = true;
+        touchStartX = e.touches[0].pageX;
+        touchStartScrollLeft = scrollContainer.scrollLeft;
+      }
+    }, { passive: true });
+
+    scrollContainer.addEventListener('touchmove', (e) => {
+      if (!isTouchingContainer || e.touches.length !== 1) return;
+      this._markManualScroll();
+      const touchX = e.touches[0].pageX;
+      const diff = touchStartX - touchX;
+      scrollContainer.scrollLeft = touchStartScrollLeft + diff;
+    }, { passive: true });
+
+    scrollContainer.addEventListener('touchend', () => {
+      isTouchingContainer = false;
+      this._markManualScroll();
+    }, { passive: true });
   }
 
   /**
@@ -105,7 +219,7 @@ class KeyboardController {
       const labelSpan = keyEl.querySelector('.key-label');
       if (labelSpan) {
         labelSpan.innerHTML = `
-          <span class="note-name">${noteInfo.pitchName === 'C' ? noteInfo.noteName : ''}</span>
+          <span class="note-name">${noteInfo.pitchName === 'C' || !noteInfo.isBlack ? noteInfo.noteName : ''}</span>
           ${qwerty ? `<span class="qwerty-hint active-hint">${qwerty}</span>` : ''}
         `;
       }
@@ -116,14 +230,151 @@ class KeyboardController {
     if (octDisplay) {
       octDisplay.textContent = `C${window.noteMapper.baseOctave} - C${window.noteMapper.baseOctave + 1}`;
     }
+
+    // Keep octave button states synchronized with boundaries
+    this._updateOctaveButtonStates();
   }
 
-  scrollKeyboardToOctave(octave) {
-    if (!this.containerEl) return;
-    const centerMidi = (octave + 1) * 12; // C of base octave
-    const targetKey = this.containerEl.querySelector(`[data-midi="${centerMidi}"]`);
-    if (targetKey) {
-      targetKey.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  /**
+   * Calculates the exact horizontal scroll coordinate to comfortably center the specified octave
+   * Accounts for rendered element positions, current scroll offset, viewport width, and boundaries.
+   */
+  _calculateOctaveScrollTarget(octave) {
+    const scrollContainer = this.getScrollContainer();
+    if (!scrollContainer || !this.containerEl) return null;
+
+    const startMidi = (octave + 1) * 12; // C of base octave
+    const startKey = this.containerEl.querySelector(`[data-midi="${startMidi}"]`);
+    if (!startKey) return null;
+
+    const endMidi = Math.min(this.endNote, startMidi + 12); // C of upper octave
+    const endKey = this.containerEl.querySelector(`[data-midi="${endMidi}"]`);
+
+    const containerRect = scrollContainer.getBoundingClientRect();
+    const startRect = startKey.getBoundingClientRect();
+    const currentScrollLeft = scrollContainer.scrollLeft;
+
+    // Actual horizontal pixel coordinate of start key relative to scrollable canvas
+    const startContentX = (startRect.left - containerRect.left) + currentScrollLeft;
+
+    let endContentX;
+    if (endKey) {
+      const endRect = endKey.getBoundingClientRect();
+      endContentX = (endRect.right - containerRect.left) + currentScrollLeft;
+    } else {
+      endContentX = startContentX + startRect.width;
+    }
+
+    const octaveWidth = endContentX - startContentX;
+    const octaveCenter = startContentX + (octaveWidth / 2);
+    const viewportWidth = scrollContainer.clientWidth;
+
+    let targetPosition;
+    if (viewportWidth >= octaveWidth) {
+      // Comfortably center the octave within the available container width
+      targetPosition = octaveCenter - (viewportWidth / 2);
+    } else {
+      // Narrow screens: align octave start with comfortable 16px inset
+      targetPosition = startContentX - 16;
+    }
+
+    const maxScroll = Math.max(0, scrollContainer.scrollWidth - scrollContainer.clientWidth);
+    return Math.max(0, Math.min(maxScroll, Math.round(targetPosition)));
+  }
+
+  /**
+   * Smoothly scrolls the piano keyboard container to make the active octave visible
+   */
+  scrollKeyboardToOctave(octave, behavior = 'smooth') {
+    const scrollContainer = this.getScrollContainer();
+    if (!scrollContainer) return;
+
+    const targetPosition = this._calculateOctaveScrollTarget(octave);
+    if (targetPosition === null) return;
+
+    // Prevent competing animation loops during rapid octave clicking
+    if (this._scrollTimer) {
+      clearTimeout(this._scrollTimer);
+    }
+
+    // Perform smooth horizontal scroll
+    scrollContainer.scrollTo({
+      left: targetPosition,
+      behavior: behavior
+    });
+
+    // Verification settle pass: ensures final keyboard position locks accurately to latest selected octave
+    this._scrollTimer = setTimeout(() => {
+      if (!this._isUserScrollingManually) {
+        const recomputed = this._calculateOctaveScrollTarget(window.noteMapper ? window.noteMapper.baseOctave : octave);
+        if (recomputed !== null && Math.abs(scrollContainer.scrollLeft - recomputed) > 4) {
+          scrollContainer.scrollTo({ left: recomputed, behavior: 'smooth' });
+        }
+      }
+    }, 320);
+  }
+
+  /**
+   * Centralized Octave Shifting Engine
+   * Single source of truth: updates noteMapper, key labels, status bar, and smoothly scrolls to view
+   */
+  shiftOctave(delta) {
+    const current = window.noteMapper ? window.noteMapper.baseOctave : 4;
+    return this.setOctave(current + delta, true);
+  }
+
+  setOctave(targetOctave, triggerAutoScroll = true) {
+    if (!window.noteMapper) return 4;
+
+    const previousOctave = window.noteMapper.baseOctave;
+    const newOctave = window.noteMapper.setOctave(targetOctave);
+
+    // 1. Update all visual QWERTY badges and note names
+    this.updateKeyLabels();
+
+    // 2. Update bottom status bar
+    if (window.app && typeof window.app.updateStatusInstrument === 'function') {
+      window.app.updateStatusInstrument();
+    }
+
+    // 3. Update button boundary states
+    this._updateOctaveButtonStates();
+
+    // 4. Smoothly scroll piano keyboard to reveal newly selected octave
+    if (triggerAutoScroll) {
+      this.scrollKeyboardToOctave(newOctave, 'smooth');
+    }
+
+    // 5. User feedback toast
+    if (newOctave !== previousOctave) {
+      const dir = newOctave > previousOctave ? 'Higher' : 'Lower';
+      this._showToast(`Octave ${dir}: C${newOctave} - C${newOctave + 1}`);
+    } else if (targetOctave > 7) {
+      this._showToast('Maximum Octave Reached: C7 - C8');
+    } else if (targetOctave < 1) {
+      this._showToast('Minimum Octave Reached: C1 - C2');
+    }
+
+    return newOctave;
+  }
+
+  _updateOctaveButtonStates() {
+    const current = window.noteMapper ? window.noteMapper.baseOctave : 4;
+    const downBtn = document.getElementById('btn-octave-down');
+    const upBtn = document.getElementById('btn-octave-up');
+
+    if (downBtn) {
+      const isMin = current <= 1;
+      downBtn.disabled = isMin;
+      downBtn.style.opacity = isMin ? '0.45' : '1';
+      downBtn.style.cursor = isMin ? 'not-allowed' : 'pointer';
+    }
+
+    if (upBtn) {
+      const isMax = current >= 7;
+      upBtn.disabled = isMax;
+      upBtn.style.opacity = isMax ? '0.45' : '1';
+      upBtn.style.cursor = isMax ? 'not-allowed' : 'pointer';
     }
   }
 
@@ -139,22 +390,16 @@ class KeyboardController {
 
       const code = e.code;
 
-      // Special action keys
+      // Special action keys - centralized octave shifting
       if (code === 'KeyZ') {
         e.preventDefault();
-        window.noteMapper.shiftOctave(-1);
-        this.updateKeyLabels();
-        this.scrollKeyboardToOctave(window.noteMapper.baseOctave);
-        this._showToast(`Octave Decreased: C${window.noteMapper.baseOctave}`);
+        this.shiftOctave(-1);
         return;
       }
 
       if (code === 'KeyX') {
         e.preventDefault();
-        window.noteMapper.shiftOctave(1);
-        this.updateKeyLabels();
-        this.scrollKeyboardToOctave(window.noteMapper.baseOctave);
-        this._showToast(`Octave Increased: C${window.noteMapper.baseOctave}`);
+        this.shiftOctave(1);
         return;
       }
 
@@ -412,6 +657,9 @@ class KeyboardController {
     const pct = Math.round(window.noteMapper.velocity * 100);
     if (slider) slider.value = pct;
     if (valText) valText.textContent = `${pct}%`;
+    if (window.app && window.app.updateStatusInstrument) {
+      window.app.updateStatusInstrument();
+    }
   }
 
   _showToast(msg) {

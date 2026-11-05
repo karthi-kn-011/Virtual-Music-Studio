@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgSitar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F130B"/>
+      <stop offset="50%" stop-color="#331D0E"/>
+      <stop offset="100%" stop-color="#120A05"/>
+    </linearGradient>
+    <radialGradient id="sitarSpot" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gourdGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C2410C"/>
+      <stop offset="40%" stop-color="#9A3412"/>
+      <stop offset="100%" stop-color="#431407"/>
+    </linearGradient>
+    <linearGradient id="brassFrets" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <filter id="sitarShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="320" height="200" rx="12" fill="url(#bgSitar)"/>
+  <circle cx="160" cy="90" r="110" fill="url(#sitarSpot)"/>
+  
+  <g filter="url(#sitarShadow)">
+    <!-- Upper Gourd (Tumba Resonator at top of neck) -->
+    <circle cx="45" cy="80" r="14" fill="url(#gourdGrad)" stroke="#FDE68A" stroke-width="0.8"/>
+    
+    <!-- Long Hollow Tun / Teak Wood Neck (Dandi) -->
+    <rect x="42" y="86" width="135" height="15" fill="#582914" stroke="#D97706" stroke-width="1" transform="rotate(-6 109 93)"/>
+
+    <!-- Curved Brass Frets (Pardas) tied with silk -->
+    <g stroke="url(#brassFrets)" stroke-width="1.8" fill="none">
+      <path d="M 60 76 Q 64 85 62 94"/>
+      <path d="M 74 74 Q 78 83 76 92"/>
+      <path d="M 88 72 Q 92 81 90 90"/>
+      <path d="M 102 70 Q 106 79 104 88"/>
+      <path d="M 116 68 Q 120 77 118 86"/>
+      <path d="M 130 66 Q 134 75 132 84"/>
+      <path d="M 144 64 Q 148 73 146 82"/>
+      <path d="M 158 62 Q 162 71 160 80"/>
+    </g>
+
+    <!-- Tuning Pegs (Kunti) on Neck for Sympathetic Strings -->
+    <g fill="#FEF3C7">
+      <circle cx="68" cy="74" r="2.2"/>
+      <circle cx="82" cy="72" r="2.2"/>
+      <circle cx="96" cy="70" r="2.2"/>
+      <circle cx="110" cy="68" r="2.2"/>
+      <circle cx="124" cy="66" r="2.2"/>
+    </g>
+
+    <!-- Main Resonator Base Gourd (Kaddu) with Floral Inlay -->
+    <g transform="translate(165, 45)">
+      <!-- Gourd Profile -->
+      <ellipse cx="60" cy="60" rx="48" ry="44" fill="url(#gourdGrad)" stroke="#F59E0B" stroke-width="1.5"/>
+      <!-- Tabli (Flat Wooden Soundboard Face) -->
+      <path d="M 30 25 C 50 18, 80 20, 95 35 C 105 50, 105 75, 90 90 C 75 100, 45 98, 30 85 Z" fill="#7C2D12" stroke="#FEF3C7" stroke-width="0.8"/>
+      <!-- Bone Jawari Bridge (Sloped wide bridge creating buzz / resonance) -->
+      <polygon points="55,50 78,50 75,68 52,68" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="0.8"/>
+      <!-- Small Chota Jawari for sympathetic strings (Tarab) -->
+      <rect x="42" y="44" width="12" height="6" rx="1" fill="#F8FAFC"/>
+    </g>
+
+    <!-- Main Playing Strings (Baj, Jora, Pancham, Kharaj) -->
+    <line x1="45" y1="84" x2="230" y2="100" stroke="#FDE68A" stroke-width="1.2"/>
+    <line x1="45" y1="86" x2="230" y2="102" stroke="#FEF08A" stroke-width="1"/>
+    <line x1="45" y1="88" x2="230" y2="104" stroke="#FFFFFF" stroke-width="0.8"/>
+    <line x1="45" y1="90" x2="230" y2="106" stroke="#FFFFFF" stroke-width="0.8"/>
+    
+    <!-- Chikari Rhythm Strings -->
+    <line x1="120" y1="78" x2="230" y2="98" stroke="#FDE68A" stroke-width="0.7"/>
+    <line x1="125" y1="79" x2="230" y2="99" stroke="#FDE68A" stroke-width="0.7"/>
+  </g>
+  
+  <text x="20" y="186" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="1">INDIAN CLASSICAL SITAR</text>
+  <text x="280" y="186" fill="#A1A1AA" font-family="monospace" font-size="9" text-anchor="end">JAWARI • 20 FRETS • TARAB</text>
+</svg>
